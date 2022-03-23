@@ -11,6 +11,7 @@ public class MenusControl : MonoBehaviour, IPointerClickHandler
     public RectTransform Panel2;
     public RectTransform Panel3;
     public RawImage RaycastTarget;
+    public RectTransform WorkingArea;
 
     [Header("Prefabs")]
     public Button ButtonPrefab;
@@ -18,16 +19,15 @@ public class MenusControl : MonoBehaviour, IPointerClickHandler
     const int BUTTON_HEIGHT = 35;
     const int BOTTOM_PADDING = 10;
 
-    //state
+    //state, for debug only
     private MenuItem _itemL1;
     private MenuItem _itemL2;
     private MenuItem _itemL3;
 
-    // Start is called before the first frame update
+
     void Start()
     {
         CloseMenus();
-
         RerenderPanel(Panel1, Panel1Items, 1);
     }
 
@@ -93,6 +93,15 @@ public class MenusControl : MonoBehaviour, IPointerClickHandler
     {
         _itemL3 = item;
         Debug.Log($"OpenBlock: {item.Name}");
+        if (item.Prefab != null)
+        {
+            var instance = Instantiate(item.Prefab);
+            foreach (Transform obj in WorkingArea)
+            {
+                Destroy(obj.gameObject);
+            }
+            instance.transform.SetParent(WorkingArea, false);
+        }
         CloseMenus();
     }
 
@@ -131,9 +140,6 @@ public class MenusControl : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        //if (eventData.pointerCurrentRaycast. == gameObject)
-        //{
-            CloseMenus();
-        //}
+        CloseMenus();
     }
 }
