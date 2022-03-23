@@ -67,6 +67,15 @@ public class GameManager : MonoBehaviour
 
     public void Restart()
     {
+        //clear state
+    }
 
+    public void CheckOrder(bool showUI = false)
+    {
+        if (showUI)
+        {
+            // ui
+        }
+        // check
     }
 }
