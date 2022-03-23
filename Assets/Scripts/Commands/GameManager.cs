@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -22,6 +23,7 @@ public class GameManager : MonoBehaviour
     // state
     private Command _currentCommand;
     private int _personRole;
+    private List<Action> actions = new List<Action>();
 
     public static GameManager Instance { get; private set; }
 
@@ -76,6 +78,7 @@ public class GameManager : MonoBehaviour
     public void Restart()
     {
         //clear state
+        actions.Clear();
     }
 
     public void CheckOrder(bool showUI = false)
@@ -85,5 +88,20 @@ public class GameManager : MonoBehaviour
             // ui
         }
         // check
+    }
+
+    public void AddToState(Action a)
+    {
+        var last = actions.LastOrDefault();
+        if (last?.name == a.name)
+        {
+            actions.Remove(last);
+            if (!a.IsInDefaultState())
+                actions.Add(a);
+        }
+        else
+        {
+            actions.Add(a);
+        }
     }
 }

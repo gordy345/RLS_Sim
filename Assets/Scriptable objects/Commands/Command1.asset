@@ -18,7 +18,13 @@ MonoBehaviour:
     \u0441\u0442\u0430\u043D\u0446\u0438\u0438"
   CommandDescription: 
   CommandDescriptionPos1: 
-  ActionsPos1: []
+  ActionsPos1:
+  - {fileID: 11400000, guid: 84ea5503e90c58841859e11b42a08998, type: 2}
+  - {fileID: 11400000, guid: bc1fb36f84a93334d95935992b471939, type: 2}
+  - {fileID: 11400000, guid: 61bb1658aca65d34bb046a1db3b496ae, type: 2}
+  - {fileID: 11400000, guid: 11536274671f9ca4cb31cf27da7ce31f, type: 2}
+  - {fileID: 11400000, guid: 7d5020a81f20cad488eaf3382110ec37, type: 2}
+  - {fileID: 11400000, guid: bb819b40ae45d0548b8ed6e45973c13c, type: 2}
   CommandDescriptionPos2: 
   ActionsPos2: []
   CommandDescriptionPos3: 
