@@ -9,7 +9,11 @@ public class GameManager : MonoBehaviour
     public GameObject CommandSelect;
     public GameObject RoleSelect;
     public GameObject MainPanel;
- 
+
+    [Header("Tooltip")]
+    public TooltipPanel Tooltip;
+    public float TooltipDelay;
+
     [Header("Commands")]
     public Command[] CommandList;
     public RectTransform CommandButtonsUI;
@@ -19,14 +23,18 @@ public class GameManager : MonoBehaviour
     private Command _currentCommand;
     private int _personRole;
 
+    public static GameManager Instance { get; private set; }
 
     void Start()
     {
+        Instance = this;
         foreach (var c in CommandList)
         {
             var b = Instantiate(CommandButtonPrefab);
             b.onClick.AddListener(() => StartCommandScript(c));
             b.GetComponentInChildren<Text>().text = c.CommandName;
+            var trigger = b.GetComponent<TooltipTrigger>();
+            trigger.text = c.CommandName;
             b.transform.SetParent(CommandButtonsUI.transform, false);
         }
         CommandSelect.SetActive(true);

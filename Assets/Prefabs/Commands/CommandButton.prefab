@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4170127700769340301}
   - component: {fileID: 3328678421221946374}
   - component: {fileID: 1713035411062619847}
+  - component: {fileID: 7036609357420945866}
   m_Layer: 5
   m_Name: CommandButton
   m_TagString: Untagged
@@ -121,6 +122,22 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &7036609357420945866
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 897557297348833306}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b10e98401f843d64785f6dd094c47a1b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tooltipPanel: {fileID: 0}
+  text: 
+  delay: 1
+  rectTransform: {fileID: 1432622071734416623}
 --- !u!1 &8982201766106622588
 GameObject:
   m_ObjectHideFlags: 0
