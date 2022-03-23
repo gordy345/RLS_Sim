@@ -10,6 +10,7 @@ public class MenusControl : MonoBehaviour, IPointerClickHandler
     public RectTransform Panel1;
     public RectTransform Panel2;
     public RectTransform Panel3;
+    public RawImage RaycastTarget;
 
     [Header("Prefabs")]
     public Button ButtonPrefab;
@@ -27,15 +28,7 @@ public class MenusControl : MonoBehaviour, IPointerClickHandler
     {
         CloseMenus();
 
-        foreach (Transform obj in Panel1)
-        {
-            Destroy(obj.gameObject);
-        }
-        foreach (var item in Panel1Items)
-        {
-            CreateButton(1, item);
-        }
-        ResizePanel(Panel1);
+        RerenderPanel(Panel1, Panel1Items, 1);
     }
 
     private void CreateButton(int btnLayer, MenuItem item)
@@ -61,11 +54,19 @@ public class MenusControl : MonoBehaviour, IPointerClickHandler
         b.GetComponentInChildren<Text>().text = item.Name;
     }
 
-    public void OpenMenus()
+    public void ToggleMenus()
     {
-        Panel1.gameObject.SetActive(true);
-        Panel2.gameObject.SetActive(false);
-        Panel3.gameObject.SetActive(false);
+        if (RaycastTarget.enabled)
+        {
+            CloseMenus();
+        }
+        else
+        {
+            Panel1.gameObject.SetActive(true);
+            Panel2.gameObject.SetActive(false);
+            Panel3.gameObject.SetActive(false);
+            RaycastTarget.enabled = true;
+        }
     }
 
     public void OpenMenus(int layer, MenuItem item)
@@ -73,15 +74,7 @@ public class MenusControl : MonoBehaviour, IPointerClickHandler
         if (layer == 2)
         {
             _itemL1 = item;
-            foreach (Transform obj in Panel2)
-            {
-                Destroy(obj.gameObject);
-            }
-            foreach (var item2 in item.childNodes)
-            {
-                CreateButton(layer, item2);
-            }
-            ResizePanel(Panel2);
+            RerenderPanel(Panel2, item.childNodes, layer);
             Panel1.gameObject.SetActive(true);
             Panel2.gameObject.SetActive(true);
             Panel3.gameObject.SetActive(false);
@@ -89,15 +82,7 @@ public class MenusControl : MonoBehaviour, IPointerClickHandler
         if (layer == 3)
         {
             _itemL2 = item;
-            foreach (Transform obj in Panel3)
-            {
-                Destroy(obj.gameObject);
-            }
-            foreach (var item2 in item.childNodes)
-            {
-                CreateButton(layer, item2);
-            }
-            ResizePanel(Panel3);
+            RerenderPanel(Panel3, item.childNodes, layer);
             Panel1.gameObject.SetActive(true);
             Panel2.gameObject.SetActive(true);
             Panel3.gameObject.SetActive(true);
@@ -111,15 +96,23 @@ public class MenusControl : MonoBehaviour, IPointerClickHandler
         CloseMenus();
     }
 
-    private void ResizePanel(RectTransform panel)
+    private void RerenderPanel(RectTransform panel, MenuItem[] items, int layer)
     {
+        foreach (Transform obj in panel)
+        {
+            Destroy(obj.gameObject);
+        }
+        foreach (var item2 in items)
+        {
+            CreateButton(layer, item2);
+        }
         panel.sizeDelta = new Vector2(
             panel.sizeDelta.x,
-            (panel.childCount * BUTTON_HEIGHT + BOTTOM_PADDING)
+            (items.Length * BUTTON_HEIGHT + BOTTOM_PADDING)
         );
     }
 
-    private void CloseMenus()
+    public void CloseMenus()
     {
         Panel1.gameObject.SetActive(false);
         Panel2.gameObject.SetActive(false);
@@ -133,13 +126,14 @@ public class MenusControl : MonoBehaviour, IPointerClickHandler
         {
             Destroy(obj.gameObject);
         }
+        RaycastTarget.enabled = false;
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (eventData.pointerPressRaycast.gameObject == gameObject)
-        {
+        //if (eventData.pointerCurrentRaycast. == gameObject)
+        //{
             CloseMenus();
-        }
+        //}
     }
 }

@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11f212beab9de6849aa18065c4836c76, type: 3}
   m_Name: Area2
   m_EditorClassIdentifier: 
-  Name: Test area 1
-  childNodes:
-  - {fileID: 11400000, guid: 783439ac0ef0d7b4f954cea892fecbb9, type: 2}
+  Name: Test area 2
+  childNodes: []
   Prefab: {fileID: 0}

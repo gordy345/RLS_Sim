@@ -15,4 +15,5 @@ MonoBehaviour:
   Name: "\u041C\u0430\u0448\u0438\u043D\u0430 1"
   childNodes:
   - {fileID: 11400000, guid: ba4caff4dac4275478c23c458a9edf13, type: 2}
+  - {fileID: 11400000, guid: 57eae3c970937d64b95851873eedaefe, type: 2}
   Prefab: {fileID: 0}
