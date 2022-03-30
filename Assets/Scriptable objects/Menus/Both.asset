@@ -9,12 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4b6fa3fa2b1086343b8ab285d4adb361, type: 3}
-  m_Name: ToggleAction2
+  m_Script: {fileID: 11500000, guid: 11f212beab9de6849aa18065c4836c76, type: 3}
+  m_Name: Both
   m_EditorClassIdentifier: 
-  ActionName: TestBlock a2
-  isUnordored: 1
-  relatedActionGroup: {fileID: 11400000, guid: 53cdeb2bf5316734ab833c7f37e12085, type: 2}
-  _defaultState: 0
-  _requiredState: 1
-  currentState: 0
+  Name: "\u041E\u0431\u0435 \u043C\u0430\u0448\u0438\u043D\u044B"
+  childNodes: []
+  Prefab: {fileID: 8863122114303243140, guid: 159ec532b1cb83e48946418664698f53, type: 3}

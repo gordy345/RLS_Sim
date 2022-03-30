@@ -25,10 +25,10 @@ MonoBehaviour:
   ActionsPos2:
   - {fileID: 11400000, guid: 84ea5503e90c58841859e11b42a08998, type: 2}
   - {fileID: 11400000, guid: bc1fb36f84a93334d95935992b471939, type: 2}
-  - {fileID: 11400000, guid: 7135e9fbe7360bb4ab7096cb0fe28b32, type: 2}
-  - {fileID: 11400000, guid: 67771c63157ea66498f1d9dd4c98e547, type: 2}
+  - {fileID: 11400000, guid: 53cdeb2bf5316734ab833c7f37e12085, type: 2}
   CommandDescriptionPos3: 
-  ActionsPos3: []
+  ActionsPos3:
+  - {fileID: 11400000, guid: 53cdeb2bf5316734ab833c7f37e12085, type: 2}
   CommandDescriptionPos4: 
   ActionsPos4: []
   CommandDescriptionPos5: 

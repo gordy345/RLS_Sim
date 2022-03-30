@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b6fa3fa2b1086343b8ab285d4adb361, type: 3}
   m_Name: ToggleAction1 1
   m_EditorClassIdentifier: 
-  ActionName: a1
+  ActionName: TestBlock a1
+  isUnordored: 1
+  relatedActionGroup: {fileID: 11400000, guid: 53cdeb2bf5316734ab833c7f37e12085, type: 2}
   _defaultState: 0
   _requiredState: 1
   currentState: 0

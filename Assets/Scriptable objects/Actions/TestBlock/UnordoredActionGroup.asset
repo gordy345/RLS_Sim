@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e67f69cf6229bb84eb0d8f196d7d76ff, type: 3}
   m_Name: UnordoredActionGroup
   m_EditorClassIdentifier: 
-  ActionName: 
+  ActionName: AllButtons TestBlock
   isUnordored: 0
   relatedActionGroup: {fileID: 0}
-  RequiredActions: []
+  RequiredActions:
+  - {fileID: 11400000, guid: 7135e9fbe7360bb4ab7096cb0fe28b32, type: 2}
+  - {fileID: 11400000, guid: 67771c63157ea66498f1d9dd4c98e547, type: 2}

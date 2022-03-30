@@ -50,14 +50,14 @@ public class ActionsPanel : MonoBehaviour
             default: parent = Panel1; break;
         }
         b.transform.SetParent(parent, false);
-        if (btnLayer == 3)
-        {
-            b.onClick.AddListener(() => OpenBlock(item));
-        }
-        else
-        {
-            b.onClick.AddListener(() => OpenMenus(btnLayer + 1, item));
-        }
+        //if (btnLayer == 3)
+        //{
+        //    b.onClick.AddListener(() => OpenBlock(item));
+        //}
+        //else
+        //{
+        b.onClick.AddListener(() => OpenMenus(btnLayer + 1, item));
+        //}
         b.GetComponentInChildren<Text>().text = item.Name;
     }
 
@@ -94,6 +94,14 @@ public class ActionsPanel : MonoBehaviour
             Panel2.gameObject.SetActive(true);
             Panel3.gameObject.SetActive(true);
         }
+        if (layer == 4)
+        {
+            _itemL3 = item;
+        }
+        if (item.Prefab != null)
+        {
+            OpenBlock(item);
+        }
     }
 
     public void CloseMenus()
@@ -111,6 +119,9 @@ public class ActionsPanel : MonoBehaviour
             Destroy(obj.gameObject);
         }
         RaycastTarget.enabled = false;
+        _itemL1 = null;
+        _itemL2 = null;
+        _itemL3 = null;
     }
 
     public void UpdateCurrentBlockUI()
@@ -126,13 +137,15 @@ public class ActionsPanel : MonoBehaviour
 
     private void OpenBlock(MenuItem item)
     {
-        _itemL3 = item;
         if (item.Prefab != null)
         {
             CurrentBlock = Instantiate(item.Prefab);
             UpdateCurrentBlock();
         }
-        CloseMenus();
+        if (item.childNodes == null || 
+            item.childNodes.Length == 0 || 
+            item == _itemL3) 
+            CloseMenus();
     }
 
     private void RerenderPanel(RectTransform panel, MenuItem[] items, int layer)
