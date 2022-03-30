@@ -130,7 +130,10 @@ public class GameManager : MonoBehaviour
         }
 
         if (actions.Zip(req, (a, r) => new { a, r })
-            .Any(t => t.a.GetInstanceID() != t.r.GetInstanceID()))
+            .All(t => t.a.GetInstanceID() == t.r.GetInstanceID() ||
+                t.a is UnordoredActionGroup a && t.r is UnordoredActionGroup r &&
+                a.RequiredActions == r.RequiredActions
+            ))
         {
             FailCheck();
             return;
@@ -160,6 +163,27 @@ public class GameManager : MonoBehaviour
     public void AddToState(Action a)
     {
         var last = actions.LastOrDefault();
+        if (a.isUnordored)
+        {
+            UnordoredActionGroup g;
+            if (!(last is UnordoredActionGroup))
+            {
+                g = Instantiate(a.relatedActionGroup);
+            }
+            else
+            {
+                actions.Remove(last);
+                g = (UnordoredActionGroup)last;
+            }
+
+            g.AddAction(a);
+
+            if (!g.IsInDefaultState())
+                actions.Add(g);
+
+            return;
+        }
+
         if (last?.name == a.name)
         {
             actions.Remove(last);
