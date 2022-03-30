@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     public GameObject RoleSelect;
     public GameObject MainPanel;
     public CheckResult CheckResultPanel;
+    public ActionsPanel MenusControl;
 
     [Header("Tooltip")]
     public TooltipPanel Tooltip;
@@ -21,10 +22,6 @@ public class GameManager : MonoBehaviour
     public Command[] CommandList;
     public RectTransform CommandButtonsUI;
     public Button CommandButtonPrefab;
-
-    [Header("Blocks")]
-    public AbstractBlock DefaultBlock;
-    private AbstractBlock CurrentBlock { get; set; }
 
     // state
     private Command _currentCommand;
@@ -50,7 +47,6 @@ public class GameManager : MonoBehaviour
         MainPanel.SetActive(false);
         TooltipIsAllowed = true;
 
-        CurrentBlock = DefaultBlock;
     }
 
     private void Start()
@@ -113,7 +109,7 @@ public class GameManager : MonoBehaviour
             a.Reset();
         }
         actions.Clear();
-        CurrentBlock.UpdateUI();
+        MenusControl.UpdateCurrentBlockUI();
     }
 
     public void CheckOrder()

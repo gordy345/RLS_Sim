@@ -15,4 +15,5 @@ MonoBehaviour:
   Name: Test area 1
   childNodes:
   - {fileID: 11400000, guid: 783439ac0ef0d7b4f954cea892fecbb9, type: 2}
+  - {fileID: 11400000, guid: 70e5cd75c90dd6f4e869ef37587e3be9, type: 2}
   Prefab: {fileID: 0}

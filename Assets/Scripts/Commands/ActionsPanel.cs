@@ -4,14 +4,16 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class MenusControl : MonoBehaviour, IPointerClickHandler
+public class ActionsPanel : MonoBehaviour
 {
-    [Header("Panels")]
+    [Header("SubMenus")]
     public RectTransform Panel1;
     public RectTransform Panel2;
     public RectTransform Panel3;
     public RawImage RaycastTarget;
     public RectTransform WorkingArea;
+
+    public Button MenuCloseBtn;
 
     [Header("Prefabs")]
     public Button ButtonPrefab;
@@ -19,14 +21,23 @@ public class MenusControl : MonoBehaviour, IPointerClickHandler
     const int BUTTON_HEIGHT = 35;
     const int BOTTOM_PADDING = 10;
 
-    //state, for debug only
+    [Header("Blocks")]
+    public AbstractBlock DefaultBlockPrefab;
+    public AbstractBlock CurrentBlock { get; set; }
+
+    // state, for debug only
     private MenuItem _itemL1;
     private MenuItem _itemL2;
     private MenuItem _itemL3;
 
-
+    private void Awake()
+    {
+        MenuCloseBtn.onClick.AddListener(CloseMenus);
+    }
     void Start()
     {
+        CurrentBlock = Instantiate(DefaultBlockPrefab);
+        UpdateCurrentBlock();
         CloseMenus();
         RerenderPanel(Panel1, Panel1Items, 1);
     }
@@ -89,18 +100,37 @@ public class MenusControl : MonoBehaviour, IPointerClickHandler
         }
     }
 
+    public void CloseMenus()
+    {
+        Panel1.gameObject.SetActive(false);
+        Panel2.gameObject.SetActive(false);
+        Panel3.gameObject.SetActive(false);
+
+        foreach (Transform obj in Panel2)
+        {
+            Destroy(obj.gameObject);
+        }
+        foreach (Transform obj in Panel3)
+        {
+            Destroy(obj.gameObject);
+        }
+        RaycastTarget.enabled = false;
+    }
+
+    public void UpdateCurrentBlockUI()
+    {
+        CurrentBlock?.UpdateUI();
+    }
+
     private void OpenBlock(MenuItem item)
     {
         _itemL3 = item;
-        Debug.Log($"OpenBlock: {item.Name}");
+        //Debug.Log($"OpenBlock: {item.Name}");
         if (item.Prefab != null)
         {
-            var instance = Instantiate(item.Prefab);
-            foreach (Transform obj in WorkingArea)
-            {
-                Destroy(obj.gameObject);
-            }
-            instance.transform.SetParent(WorkingArea, false);
+            CurrentBlock = Instantiate(item.Prefab);
+            Debug.Log("Open Block: " + (CurrentBlock is AbstractBlock));
+            UpdateCurrentBlock();
         }
         CloseMenus();
     }
@@ -121,25 +151,18 @@ public class MenusControl : MonoBehaviour, IPointerClickHandler
         );
     }
 
-    public void CloseMenus()
+    private void ClearWorkArea()
     {
-        Panel1.gameObject.SetActive(false);
-        Panel2.gameObject.SetActive(false);
-        Panel3.gameObject.SetActive(false);
-
-        foreach (Transform obj in Panel2)
+        foreach (Transform t in WorkingArea)
         {
-            Destroy(obj.gameObject);
+            Destroy(t.gameObject);
         }
-        foreach (Transform obj in Panel3)
-        {
-            Destroy(obj.gameObject);
-        }
-        RaycastTarget.enabled = false;
     }
 
-    public void OnPointerClick(PointerEventData eventData)
+    private void UpdateCurrentBlock()
     {
-        CloseMenus();
+        ClearWorkArea();
+        CurrentBlock.transform.SetParent(WorkingArea.transform, false);
+        CurrentBlock.UpdateUI();
     }
 }

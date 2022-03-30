@@ -85,8 +85,6 @@ public class TooltipPanel : MonoBehaviour
     }
     public void Show(string text, RectTransform triggeredBy)
     {
-        Debug.Log("Opening Tooltip, Tooltip is already opened: " + gameObject.activeSelf +
-            ", triggeredBy: " + triggeredBy + ", text: " + text);
         if (gameObject.activeSelf)
             return;
 

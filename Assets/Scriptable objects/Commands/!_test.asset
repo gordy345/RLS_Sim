@@ -22,7 +22,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 7d5020a81f20cad488eaf3382110ec37, type: 2}
   - {fileID: 11400000, guid: bb819b40ae45d0548b8ed6e45973c13c, type: 2}
   CommandDescriptionPos2: 
-  ActionsPos2: []
+  ActionsPos2:
+  - {fileID: 11400000, guid: 84ea5503e90c58841859e11b42a08998, type: 2}
+  - {fileID: 11400000, guid: bc1fb36f84a93334d95935992b471939, type: 2}
+  - {fileID: 11400000, guid: 7135e9fbe7360bb4ab7096cb0fe28b32, type: 2}
+  - {fileID: 11400000, guid: 67771c63157ea66498f1d9dd4c98e547, type: 2}
   CommandDescriptionPos3: 
   ActionsPos3: []
   CommandDescriptionPos4: 

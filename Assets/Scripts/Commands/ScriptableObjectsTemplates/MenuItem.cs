@@ -8,5 +8,5 @@ public class MenuItem : ScriptableObject
 {
     public string Name;
     public MenuItem[] childNodes;
-    public GameObject Prefab;
+    public AbstractBlock Prefab;
 }
