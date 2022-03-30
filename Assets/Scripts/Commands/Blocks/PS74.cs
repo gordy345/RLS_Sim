@@ -28,6 +28,20 @@ public class PS74 : AbstractBlock
 
     public void Vent1Action(bool state) => TriggerEventInGM(Vent1_a, state);
 
+    private static bool isInited = false;
+    private void Awake()
+    {
+        if (isInited) return;
+        isInited = true;
+
+        Commandier2_a.Reset();
+        Commutator2_a.Reset();
+        Vent2_a.Reset();
+        Commandier1_a.Reset();
+        Commutator1_a.Reset();
+        Vent1_a.Reset();
+
+    }
     private void Start()
     {
         UpdateUI();

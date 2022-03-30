@@ -125,11 +125,9 @@ public class ActionsPanel : MonoBehaviour
     private void OpenBlock(MenuItem item)
     {
         _itemL3 = item;
-        //Debug.Log($"OpenBlock: {item.Name}");
         if (item.Prefab != null)
         {
             CurrentBlock = Instantiate(item.Prefab);
-            Debug.Log("Open Block: " + (CurrentBlock is AbstractBlock));
             UpdateCurrentBlock();
         }
         CloseMenus();
@@ -163,6 +161,13 @@ public class ActionsPanel : MonoBehaviour
     {
         ClearWorkArea();
         CurrentBlock.transform.SetParent(WorkingArea.transform, false);
-        CurrentBlock.UpdateUI();
+
+        IEnumerator c()
+        {
+            yield return new WaitForEndOfFrame();
+            CurrentBlock.UpdateUI();
+        }
+
+        StartCoroutine(c());
     }
 }
