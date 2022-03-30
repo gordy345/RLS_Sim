@@ -9,9 +9,8 @@ public class GameManager : MonoBehaviour
     [Header("Panels")]
     public GameObject CommandSelect;
     public GameObject RoleSelect;
-    public GameObject MainPanel;
+    public ActionsPanel MainPanel;
     public CheckResult CheckResultPanel;
-    public ActionsPanel MenusControl;
 
     [Header("Tooltip")]
     public TooltipPanel Tooltip;
@@ -46,7 +45,6 @@ public class GameManager : MonoBehaviour
         RoleSelect.SetActive(false);
         MainPanel.SetActive(false);
         TooltipIsAllowed = true;
-
     }
 
     private void Start()
@@ -68,6 +66,7 @@ public class GameManager : MonoBehaviour
         _personRole = r;
         RoleSelect.SetActive(false);
         MainPanel.SetActive(true);
+        MainPanel.OpenDefaultBlock();
     }
 
     public void BackToCommandSelect()
@@ -103,13 +102,12 @@ public class GameManager : MonoBehaviour
 
     public void Restart()
     {
-        //clear state
         foreach (var a in actions)
         {
             a.Reset();
         }
         actions.Clear();
-        MenusControl.UpdateCurrentBlockUI();
+        MainPanel.UpdateCurrentBlockUI();
     }
 
     public void CheckOrder()
@@ -127,37 +125,34 @@ public class GameManager : MonoBehaviour
 
         if (actions.Count != req.Length)
         {
-            FailCheck("Count is not matching");
+            FailCheck();
             return;
         }
 
         if (actions.Zip(req, (a, r) => new { a, r })
-            .Any(t => t.a.GetInstanceID() != t.r.GetInstanceID())
-            )
+            .Any(t => t.a.GetInstanceID() != t.r.GetInstanceID()))
         {
-            FailCheck("Actions are not matching");
+            FailCheck();
             return;
         }
 
 
         if (!actions.All(a => a.IsInRequiredState()))
         {
-            FailCheck("Some action is not in required state");
+            FailCheck();
             return;
         }
         PassCheck();
     }
 
-    private void FailCheck(string reason = "")
+    private void FailCheck()
     {
-        //Debug.Log("Check failed: " + reason);
         CheckResultPanel.gameObject.SetActive(true);
         CheckResultPanel.ShowFailMessage();
     }
 
     private void PassCheck()
     {
-        //Debug.Log("Check passed");
         CheckResultPanel.gameObject.SetActive(true);
         CheckResultPanel.ShowPassMessage();
     }
@@ -175,7 +170,5 @@ public class GameManager : MonoBehaviour
         {
             actions.Add(a);
         }
-        //Debug.Log("State length: " + actions.Count);
-        //Debug.Log("Last action: " + actions.LastOrDefault()?.name);
     }
 }

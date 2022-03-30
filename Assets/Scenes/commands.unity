@@ -680,7 +680,6 @@ MonoBehaviour:
   Panel3: {fileID: 388548071}
   RaycastTarget: {fileID: 654966042}
   WorkingArea: {fileID: 606661114}
-  MenuCloseBtn: {fileID: 654966041}
   ButtonPrefab: {fileID: 8909597782564347600, guid: 2f105ec112ebb944aba86715bdad3902,
     type: 3}
   Panel1Items:
@@ -4887,9 +4886,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CommandSelect: {fileID: 341247340}
   RoleSelect: {fileID: 1876571334}
-  MainPanel: {fileID: 145738257}
+  MainPanel: {fileID: 145738259}
   CheckResultPanel: {fileID: 2065848897}
-  MenusControl: {fileID: 145738259}
   Tooltip: {fileID: 1074668872}
   TooltipDelay: 0.8
   CommandList:

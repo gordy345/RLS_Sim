@@ -13,8 +13,6 @@ public class ActionsPanel : MonoBehaviour
     public RawImage RaycastTarget;
     public RectTransform WorkingArea;
 
-    public Button MenuCloseBtn;
-
     [Header("Prefabs")]
     public Button ButtonPrefab;
     public MenuItem[] Panel1Items;
@@ -30,10 +28,6 @@ public class ActionsPanel : MonoBehaviour
     private MenuItem _itemL2;
     private MenuItem _itemL3;
 
-    private void Awake()
-    {
-        MenuCloseBtn.onClick.AddListener(CloseMenus);
-    }
     void Start()
     {
         CurrentBlock = Instantiate(DefaultBlockPrefab);
@@ -41,6 +35,8 @@ public class ActionsPanel : MonoBehaviour
         CloseMenus();
         RerenderPanel(Panel1, Panel1Items, 1);
     }
+
+    public void SetActive(bool state) => gameObject.SetActive(state);
 
     private void CreateButton(int btnLayer, MenuItem item)
     {
@@ -120,6 +116,12 @@ public class ActionsPanel : MonoBehaviour
     public void UpdateCurrentBlockUI()
     {
         CurrentBlock?.UpdateUI();
+    }
+
+    public void OpenDefaultBlock()
+    {
+        CurrentBlock = Instantiate(DefaultBlockPrefab);
+        UpdateCurrentBlock();
     }
 
     private void OpenBlock(MenuItem item)
