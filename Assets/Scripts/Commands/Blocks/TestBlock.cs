@@ -14,7 +14,7 @@ public class TestBlock : AbstractBlock
     public void Action2(bool state) => TriggerEventInGM(T2_a, state);
 
 
-    private void Awake()
+    private void Start()
     {
         T1.OnToggle.AddListener(Action1);
         T2.OnToggle.AddListener(Action2);
