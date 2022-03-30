@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
     [Header("Tooltip")]
     public TooltipPanel Tooltip;
     public float TooltipDelay;
-    public bool TooltipIsAllowed { get; private set; }
+    public bool TooltipIsAllowed { get; private set; } = true;
 
     [Header("Commands")]
     public Command[] CommandList;
@@ -33,7 +33,7 @@ public class GameManager : MonoBehaviour
 
     public static GameManager Instance { get; private set; }
 
-    void Start()
+    void Awake()
     {
         Instance = this;
         foreach (var c in CommandList)
@@ -48,8 +48,15 @@ public class GameManager : MonoBehaviour
         CommandSelect.SetActive(true);
         RoleSelect.SetActive(false);
         MainPanel.SetActive(false);
+        TooltipIsAllowed = true;
 
         CurrentBlock = DefaultBlock;
+    }
+
+    private void Start()
+    {
+        Tooltip.Show("", null);
+        Tooltip.Hide();
     }
 
     private void StartCommandScript(Command command)
@@ -74,8 +81,19 @@ public class GameManager : MonoBehaviour
         CommandSelect.SetActive(true);
         RoleSelect.SetActive(false);
         MainPanel.SetActive(false);
-        Tooltip.gameObject.SetActive(false);
         TooltipIsAllowed = true;
+        HideTooltipAfterFrame();
+        Restart();
+    }
+
+    private void HideTooltipAfterFrame()
+    {
+        IEnumerator c()
+        {
+            yield return new WaitForEndOfFrame();
+            Tooltip.Hide();
+        }
+        StartCoroutine(c());
     }
 
     public void BackToRoleSelect()
@@ -84,6 +102,7 @@ public class GameManager : MonoBehaviour
         CommandSelect.SetActive(false);
         RoleSelect.SetActive(true);
         MainPanel.SetActive(false);
+        Restart();
     }
 
     public void Restart()

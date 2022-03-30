@@ -134,10 +134,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b10e98401f843d64785f6dd094c47a1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tooltipPanel: {fileID: 0}
   text: 
-  delay: 1
-  rectTransform: {fileID: 1432622071734416623}
+  _rectTransform: {fileID: 1432622071734416623}
 --- !u!1 &8982201766106622588
 GameObject:
   m_ObjectHideFlags: 0

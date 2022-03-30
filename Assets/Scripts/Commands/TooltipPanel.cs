@@ -19,6 +19,7 @@ public class TooltipPanel : MonoBehaviour
     private RectTransform rectTransform;
     private RectTransform triggerObject;
 
+
     private void Awake()
     {
         rectTransform = GetComponent<RectTransform>();
@@ -37,7 +38,7 @@ public class TooltipPanel : MonoBehaviour
             Reposition();
         if (Input.anyKeyDown)
         {
-            gameObject.SetActive(false);
+            Hide();
         }
     }
 
@@ -84,6 +85,8 @@ public class TooltipPanel : MonoBehaviour
     }
     public void Show(string text, RectTransform triggeredBy)
     {
+        Debug.Log("Opening Tooltip, Tooltip is already opened: " + gameObject.activeSelf +
+            ", triggeredBy: " + triggeredBy + ", text: " + text);
         if (gameObject.activeSelf)
             return;
 
@@ -102,7 +105,6 @@ public class TooltipPanel : MonoBehaviour
     {
         if (!gameObject.activeSelf)
             return;
-
         gameObject.SetActive(false);
     }
 }

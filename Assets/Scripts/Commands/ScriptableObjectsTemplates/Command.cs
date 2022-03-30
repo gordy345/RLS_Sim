@@ -6,7 +6,6 @@ using UnityEngine;
 public class Command : ScriptableObject
 {
     public string CommandName;
-    public string CommandDescription;
 
     [Header("Pos 1")]
     public string CommandDescriptionPos1;

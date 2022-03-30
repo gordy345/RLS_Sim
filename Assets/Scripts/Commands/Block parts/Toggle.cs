@@ -43,8 +43,6 @@ public class Toggle : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        IsToggledOn = false;
+        SetStateNoEvent(false);
     }
-
-    private static void EmptyHandler(bool _) { }
 }

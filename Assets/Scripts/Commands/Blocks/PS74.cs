@@ -30,12 +30,7 @@ public class PS74 : AbstractBlock
 
     private void Start()
     {
-        Commandier2.IsToggledOn = Commandier2_a.DefaultState;
-        Commutator2.IsToggledOn = Commutator2_a.DefaultState;
-        Vent2.IsToggledOn = Vent2_a.DefaultState;
-        Commandier1.IsToggledOn = Commandier1_a.DefaultState;
-        Commutator1.IsToggledOn = Commutator1_a.DefaultState;
-        Vent1.IsToggledOn = Vent1_a.DefaultState;
+        UpdateUI();
 
         Commandier2.OnToggle.AddListener(Commandier2Action);
         Commutator2.OnToggle.AddListener(Commutator2Action);
