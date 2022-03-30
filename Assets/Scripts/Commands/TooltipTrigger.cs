@@ -17,6 +17,7 @@ public class TooltipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        if (!GameManager.Instance.TooltipIsAllowed) return;
         mouseIsHovering = true;
         mouseHoverTime = Time.unscaledTime;
     }

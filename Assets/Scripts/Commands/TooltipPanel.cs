@@ -35,6 +35,10 @@ public class TooltipPanel : MonoBehaviour
     {
         if (moveWithMouse)
             Reposition();
+        if (Input.anyKeyDown)
+        {
+            gameObject.SetActive(false);
+        }
     }
 
     private void Reposition()

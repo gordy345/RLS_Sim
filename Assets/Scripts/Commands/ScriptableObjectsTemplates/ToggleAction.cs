@@ -21,5 +21,13 @@ public class ToggleAction : Action
     }
 
     public override bool IsInDefaultState() => currentState == DefaultState;
+
+    public override bool IsInRequiredState()
+    {
+        //Debug.Log("IsInRequiredState check, action: " + name + ", id: " + GetInstanceID() +
+        //    ", current state: " + currentState + ", required state: " + RequiredState
+        //);
+        return currentState == RequiredState;
+    }
 }
 

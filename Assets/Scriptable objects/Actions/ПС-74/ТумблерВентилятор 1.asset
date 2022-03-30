@@ -17,5 +17,5 @@ MonoBehaviour:
     1"
   ActionDescription: 
   _defaultState: 0
-  _requiredState: 0
+  _requiredState: 1
   currentState: 0
