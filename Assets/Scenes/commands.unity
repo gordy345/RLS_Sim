@@ -692,7 +692,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 1930586484009fe4f9af09cd380f0664, type: 2}
   - {fileID: 11400000, guid: 046621c46ac2d0c45bd689d231ccaaa0, type: 2}
   - {fileID: 11400000, guid: 9bb0274c09a442040b62cac9c3d3f927, type: 2}
-  DefaultBlockPrefab: {fileID: 8863122114303243140, guid: 159ec532b1cb83e48946418664698f53,
+  DefaultBlockPrefab: {fileID: 2222694526678769920, guid: 159ec532b1cb83e48946418664698f53,
     type: 3}
 --- !u!1 &153832100
 GameObject:
@@ -4903,6 +4903,9 @@ MonoBehaviour:
   CommandButtonsUI: {fileID: 1749276104}
   CommandButtonPrefab: {fileID: 1713035411062619847, guid: b9013ee502e97a6409c7059cd8092143,
     type: 3}
+  OnRecolor:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1778260376
 GameObject:
   m_ObjectHideFlags: 0

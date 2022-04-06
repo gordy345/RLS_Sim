@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 11f212beab9de6849aa18065c4836c76, type: 3}
-  m_Name: Both
+  m_Name: YA60
   m_EditorClassIdentifier: 
-  Name: "\u041E\u0431\u0435 \u043C\u0430\u0448\u0438\u043D\u044B"
+  Name: "\u042F-60"
   childNodes: []
-  Prefab: {fileID: 2222694526678769920, guid: 159ec532b1cb83e48946418664698f53, type: 3}
+  Prefab: {fileID: -5224593023074057970, guid: e96ba58426e74474fb311d5c76212570, type: 3}

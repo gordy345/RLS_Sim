@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6063192240542929747}
   - component: {fileID: 6063192240542929745}
   - component: {fileID: 6063192240542929744}
-  - component: {fileID: 8863122114303243140}
+  - component: {fileID: 2222694526678769920}
   m_Layer: 5
   m_Name: BothMach
   m_TagString: Untagged
@@ -78,7 +78,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &8863122114303243140
+--- !u!114 &2222694526678769920
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -87,9 +87,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 6063192240542929746}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 279d4b27dfe322a4e851d6d26e27aeeb, type: 3}
+  m_Script: {fileID: 11500000, guid: 1960fba235d1e30418baf29d8bbae303, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MachinesImage: {fileID: 6547657336050649315}
+  RecolorCol: {r: 0.9811321, g: 0.3646849, b: 0.8423419, a: 1}
 --- !u!1 &6602316871375282887
 GameObject:
   m_ObjectHideFlags: 0
@@ -220,7 +222,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.7660921, g: 0.8396226, b: 0.40713775, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

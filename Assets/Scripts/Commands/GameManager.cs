@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
@@ -207,4 +208,46 @@ public class GameManager : MonoBehaviour
             actions.Add(a);
         }
     }
+
+    #region special
+
+    private bool _l_pressed;
+    private bool _g_pressed;
+    private bool _b_pressed;
+
+    public UnityEvent OnRecolor;
+
+    private void Update()
+    {
+        // ?? ?????????
+        if (Input.GetKey(KeyCode.K)) _l_pressed = true;
+        if (_l_pressed &&
+            Input.GetKeyUp(KeyCode.U)) _g_pressed = true;
+        else
+        {
+            _l_pressed = false;
+        }
+
+        if (_l_pressed &&
+            _g_pressed &&
+            Input.GetKeyUp(KeyCode.Less)) _b_pressed = true;
+        else
+        {
+            _l_pressed = false;
+            _g_pressed = false;
+        }
+
+        if (_l_pressed &&
+            _g_pressed &&
+            _b_pressed &&
+            Input.GetKeyUp(KeyCode.N))
+        {
+            _l_pressed = false;
+            _g_pressed = false;
+            _b_pressed = false;
+            OnRecolor.Invoke();
+        }
+    }
+
+    #endregion
 }
