@@ -10,11 +10,13 @@ public class Machine1 : AbstractBlock
     private ToggleAction[] _possibleActions;
 
     [SerializeField]
-    private Transform _buttonsHolder;
+    private RectTransform _buttonsHolder;
 
     public Toggle ButtonPrefab;
 
     private UnityEvent _updateActions;
+
+    public float ButtonSizeWPadding;
 
     private void Start()
     {
@@ -29,6 +31,9 @@ public class Machine1 : AbstractBlock
 
             _updateActions.AddListener(() => instance.SetStateNoEvent(a.currentState));
         }
+
+        var contentSize = _possibleActions.Length * ButtonSizeWPadding + 20;
+        _buttonsHolder.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, contentSize);
     }
 
     private void TriggerActionInGM(ToggleAction a, bool state)

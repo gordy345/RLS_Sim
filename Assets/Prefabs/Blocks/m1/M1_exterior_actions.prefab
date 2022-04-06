@@ -229,6 +229,7 @@ MonoBehaviour:
   _buttonsHolder: {fileID: 1459249851325531971}
   ButtonPrefab: {fileID: 5457588512452081513, guid: 02357976a2754e443842ba9f1b1aa034,
     type: 3}
+  ButtonSizeWPadding: 60
 --- !u!1 &3419012968676117181
 GameObject:
   m_ObjectHideFlags: 0
