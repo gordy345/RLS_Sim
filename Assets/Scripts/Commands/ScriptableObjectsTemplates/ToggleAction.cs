@@ -5,11 +5,13 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "ToggleAction", menuName = "ScriptableObjects/ToggleAction", order = 10)]
 public class ToggleAction : Action
 {
+    [Header("ToggleAction fields")]
     [SerializeField]
     private bool _defaultState;
     [SerializeField]
     private bool _requiredState;
 
+    public override bool RemoveIfMatchingDefaultState => true;
     public bool DefaultState => _defaultState;
     public bool RequiredState => _requiredState;
 
@@ -23,5 +25,6 @@ public class ToggleAction : Action
     public override bool IsInDefaultState() => currentState == DefaultState;
 
     public override bool IsInRequiredState() => currentState == RequiredState;
+
 }
 

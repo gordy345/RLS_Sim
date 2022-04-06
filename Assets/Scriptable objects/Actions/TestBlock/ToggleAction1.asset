@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4b6fa3fa2b1086343b8ab285d4adb361, type: 3}
-  m_Name: ToggleAction1 1
+  m_Name: ToggleAction1
   m_EditorClassIdentifier: 
   ActionName: TestBlock a1
   isUnordored: 1

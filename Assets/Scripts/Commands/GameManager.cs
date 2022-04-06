@@ -125,23 +125,35 @@ public class GameManager : MonoBehaviour
 
         if (actions.Count != req.Length)
         {
+            //Debug.Log("Fail on items count check");
             FailCheck();
             return;
         }
 
-        if (actions.Zip(req, (a, r) => new { a, r })
-            .All(t => t.a.GetInstanceID() == t.r.GetInstanceID() ||
-                t.a is UnordoredActionGroup a && t.r is UnordoredActionGroup r &&
-                a.RequiredActions == r.RequiredActions
-            ))
+        var i = 0;
+        foreach (var a in actions) 
         {
-            FailCheck();
-            return;
+            var r = req[i];
+            //Debug.Log("action: " + a.ActionName + ", id: " + a.GetInstanceID() + " is in group: " + a.isUnordored +
+            //    " | reqired: " + r.ActionName + ", id: " + r.GetInstanceID() + " | ref equal: " + (a == r));
+
+            if (
+                a.ActionName != r.ActionName &&
+                a.GetInstanceID() != r.GetInstanceID()
+                )
+            {
+                //Debug.Log("Fail on items validation");
+                FailCheck();
+                return;
+            }
+
+            i++;
         }
 
 
-        if (!actions.All(a => a.IsInRequiredState()))
+        if (actions.Any(a => !a.IsInRequiredState()))
         {
+            //Debug.Log("Fail on items state validation");
             FailCheck();
             return;
         }
