@@ -9,8 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf7308a7a9d809646a3a6f797fa61247, type: 3}
-  m_Name: Action1
+  m_Script: {fileID: 11500000, guid: 11f212beab9de6849aa18065c4836c76, type: 3}
+  m_Name: Exterior
   m_EditorClassIdentifier: 
-  ActionName: test
-  ActionDescription: 
+  Name: "\u0421\u043D\u0430\u0440\u0443\u0436\u0438 \u043C\u0430\u0448\u0438\u043D\u044B"
+  childNodes: []
+  Prefab: {fileID: 4913458966698983601, guid: b3a643eb001ddb44b9576794452e8a04, type: 3}

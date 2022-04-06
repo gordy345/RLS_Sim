@@ -14,12 +14,14 @@ public class UnordoredActionGroup : Action
 
     public override bool IsInDefaultState() => RequiredActions == null || RequiredActions.Count == 0;
 
-    public override bool IsInRequiredState() =>
-        RequiredActions.Count == CurrentActions.Count &&
-        RequiredActions.All(
-            r => CurrentActions.Contains(r)
-        ) &&
-        CurrentActions.All(a => a.IsInRequiredState());
+    public override bool IsInRequiredState()
+    {
+        return RequiredActions.Count == CurrentActions.Count &&
+            RequiredActions.All(
+                r => CurrentActions.Any(c => c.GetInstanceID() == r.GetInstanceID() || c.ActionName == r.ActionName)
+            ) &&
+            CurrentActions.All(a => a.IsInRequiredState());
+    }
 
     public override void Reset()
     {

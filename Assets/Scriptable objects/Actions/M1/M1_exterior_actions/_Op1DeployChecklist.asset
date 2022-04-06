@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e67f69cf6229bb84eb0d8f196d7d76ff, type: 3}
+  m_Name: _Op1DeployChecklist
+  m_EditorClassIdentifier: 
+  ActionName: "\u0440\u0430\u0437\u0432\u0435\u0440\u0442\u044B\u0432\u0430\u043D\u0438\u0435
+    \u0441\u0442.\u043E\u043F\u0435\u0440\u0430\u0442\u043E\u0440"
+  isUnordored: 0
+  relatedActionGroup: {fileID: 0}
+  RequiredActions:
+  - {fileID: 11400000, guid: ae1fa8c5c0c46154d90b685f57e93301, type: 2}
+  - {fileID: 11400000, guid: 3b377d9f30869164d94411f1e8a1c839, type: 2}
+  - {fileID: 11400000, guid: 4fc1923ca08c4a34bb0a533001e5e9d5, type: 2}
+  - {fileID: 11400000, guid: dee1bc0a355f0d84e8b0f64c9acc2ccf, type: 2}
+  - {fileID: 11400000, guid: 62a3b32f1cc1e9f4e9f5993db8ed4c46, type: 2}
+  - {fileID: 11400000, guid: 573b8b13f47776e4fad32dc4c86d9acb, type: 2}
