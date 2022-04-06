@@ -692,7 +692,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 1930586484009fe4f9af09cd380f0664, type: 2}
   - {fileID: 11400000, guid: 046621c46ac2d0c45bd689d231ccaaa0, type: 2}
   - {fileID: 11400000, guid: 9bb0274c09a442040b62cac9c3d3f927, type: 2}
-  DefaultBlockPrefab: {fileID: 2095046981298085993, guid: 5f2e58fd6b043c14a8eaa9f8d42a56fc,
+  DefaultBlockPrefab: {fileID: 8863122114303243140, guid: 159ec532b1cb83e48946418664698f53,
     type: 3}
 --- !u!1 &153832100
 GameObject:
@@ -3421,12 +3421,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1200, y: 600}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 1
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
