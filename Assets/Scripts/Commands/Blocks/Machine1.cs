@@ -18,6 +18,9 @@ public class Machine1 : AbstractBlock
 
     public float ButtonSizeWPadding;
 
+    private Dictionary<ToggleAction, Text> _toggles = new Dictionary<ToggleAction, Text>();
+    private Stack<ToggleAction> _currentActions = new Stack<ToggleAction>();
+
     private void Start()
     {
         _updateActions = new UnityEvent();
@@ -30,6 +33,9 @@ public class Machine1 : AbstractBlock
             instance.SetStateNoEvent(a.currentState);
 
             _updateActions.AddListener(() => instance.SetStateNoEvent(a.currentState));
+
+            var t = instance.transform.Find("SelectionNum").GetComponent<Text>();
+            _toggles.Add(a, t);
         }
 
         var contentSize = _possibleActions.Length * ButtonSizeWPadding + 20;
@@ -39,6 +45,35 @@ public class Machine1 : AbstractBlock
     private void TriggerActionInGM(ToggleAction a, bool state)
     {
         a.currentState = state;
+        if (!_currentActions.Contains(a))
+        {
+            _toggles[a].text = (_currentActions.Count + 1).ToString();
+            _currentActions.Push(a);
+        }
+        else
+        {
+            var resetStack = new Stack<ToggleAction>();
+            ToggleAction last;
+            while(_currentActions.Count > 0)
+            {
+                last = _currentActions.Pop();
+                _toggles[last].text = string.Empty;
+                if (last != a)
+                {
+                    resetStack.Push(last);
+                }
+                else
+                {
+                    break;
+                }
+            }
+            while (resetStack.Count > 0)
+            {
+                var t = resetStack.Pop();
+                _toggles[t].text = (_currentActions.Count + 1).ToString();
+                _currentActions.Push(t);
+            }
+        }
         GameManager.Instance.AddToState(a);
     }
 

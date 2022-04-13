@@ -50,14 +50,7 @@ public class ActionsPanel : MonoBehaviour
             default: parent = Panel1; break;
         }
         b.transform.SetParent(parent, false);
-        //if (btnLayer == 3)
-        //{
-        //    b.onClick.AddListener(() => OpenBlock(item));
-        //}
-        //else
-        //{
         b.onClick.AddListener(() => OpenMenus(btnLayer + 1, item));
-        //}
         b.GetComponentInChildren<Text>().text = item.Name;
     }
 
