@@ -30,7 +30,7 @@ public class PS74 : AbstractBlock
 
     private void Start()
     {
-        UpdateUI();
+        UpdateUI(false);
 
         Commandier2.OnToggle.AddListener(Commandier2Action);
         Commutator2.OnToggle.AddListener(Commutator2Action);
@@ -48,7 +48,7 @@ public class PS74 : AbstractBlock
         GameManager.Instance.AddToState(a);
     }
 
-    public override void UpdateUI()
+    public override void UpdateUI(bool _)
     {
         Commandier2.SetStateNoEvent(Commandier2_a.currentState);
         Commutator2.SetStateNoEvent(Commutator2_a.currentState);

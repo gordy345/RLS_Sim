@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48ae52f7b3de07f4d9484dc3a2ee8ff7, type: 3}
+  m_Name: irradiatorUpper
+  m_EditorClassIdentifier: 
+  ActionName: 
+  isUnordored: 0
+  relatedActionGroup: {fileID: 0}
+  _defaultState: 0
+  _requiredState: 1
+  currentState: 0

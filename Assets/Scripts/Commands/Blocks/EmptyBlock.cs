@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class EmptyBlock : AbstractBlock
 {
-    public override void UpdateUI() { }
+    public override void UpdateUI(bool _) { }
 }

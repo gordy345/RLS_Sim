@@ -113,8 +113,20 @@ public class SelectManyTestBlock : AbstractBlock
         GameManager.Instance.AddToState(a);
     }
 
-    public override void UpdateUI()
+    public override void UpdateUI(bool clearState)
     {
+        if (clearState)
+        {
+            _currentActions.Clear();
+            foreach (var a in _possibleActions)
+            {
+                a.Reset();
+            }
+        }
+        foreach (var t in _toggles)
+        {
+            t.Value.text = string.Empty;
+        }
         _updateActions.Invoke();
         foreach (var a in _possibleActions.OrderBy(a => a.SelectedIndex))
         {

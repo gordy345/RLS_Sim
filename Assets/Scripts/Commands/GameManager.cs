@@ -135,7 +135,7 @@ public class GameManager : MonoBehaviour
             a.Reset();
         }
         actions.Clear();
-        MainPanel.UpdateCurrentBlockUI();
+        MainPanel.UpdateCurrentBlockUI(true);
     }
 
     public void CheckOrder()

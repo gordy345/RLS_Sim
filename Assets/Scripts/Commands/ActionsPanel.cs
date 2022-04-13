@@ -117,9 +117,9 @@ public class ActionsPanel : MonoBehaviour
         _itemL3 = null;
     }
 
-    public void UpdateCurrentBlockUI()
+    public void UpdateCurrentBlockUI(bool clearState = false)
     {
-        CurrentBlock?.UpdateUI();
+        CurrentBlock?.UpdateUI(clearState);
     }
 
     public void OpenDefaultBlock()
@@ -173,7 +173,7 @@ public class ActionsPanel : MonoBehaviour
         IEnumerator c()
         {
             yield return new WaitForEndOfFrame();
-            CurrentBlock.UpdateUI();
+            CurrentBlock.UpdateUI(false);
         }
 
         StartCoroutine(c());

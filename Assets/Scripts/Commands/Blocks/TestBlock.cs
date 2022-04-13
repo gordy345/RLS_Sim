@@ -18,7 +18,7 @@ public class TestBlock : AbstractBlock
     {
         T1.OnToggle.AddListener(Action1);
         T2.OnToggle.AddListener(Action2);
-        UpdateUI();
+        UpdateUI(false);
     }
 
     private void TriggerEventInGM(ToggleAction a, bool state)
@@ -27,7 +27,7 @@ public class TestBlock : AbstractBlock
         GameManager.Instance.AddToState(a);
     }
 
-    public override void UpdateUI()
+    public override void UpdateUI(bool _)
     {
         T1.SetStateNoEvent(T1_a.currentState);
         T2.SetStateNoEvent(T2_a.currentState);

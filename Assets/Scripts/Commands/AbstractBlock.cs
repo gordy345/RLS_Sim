@@ -4,5 +4,5 @@ using UnityEngine;
 
 public abstract class AbstractBlock : MonoBehaviour
 {
-    public abstract void UpdateUI();
+    public abstract void UpdateUI(bool clearState);
 }

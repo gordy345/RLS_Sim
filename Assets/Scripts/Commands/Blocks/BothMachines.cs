@@ -12,7 +12,7 @@ public class BothMachines : AbstractBlock
     [SerializeField]
     private Color RecolorCol;
 
-    public override void UpdateUI() { }
+    public override void UpdateUI(bool _) { }
 
     private bool _l_pressed;
     private bool _g_pressed;
