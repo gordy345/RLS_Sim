@@ -18,12 +18,53 @@ MonoBehaviour:
     \u0441\u0442\u0430\u043D\u0446\u0438\u0438"
   CommandDescriptionPos1: 
   ActionsPos1:
-  - {fileID: 11400000, guid: f380a0a12298a7645849d759a71b66f3, type: 2}
+  - {fileID: 11400000, guid: ae1fa8c5c0c46154d90b685f57e93301, type: 2}
+  - {fileID: 11400000, guid: dee1bc0a355f0d84e8b0f64c9acc2ccf, type: 2}
+  - {fileID: 11400000, guid: 4fc1923ca08c4a34bb0a533001e5e9d5, type: 2}
+  - {fileID: 11400000, guid: 573b8b13f47776e4fad32dc4c86d9acb, type: 2}
+  - {fileID: 11400000, guid: 62a3b32f1cc1e9f4e9f5993db8ed4c46, type: 2}
+  - {fileID: 11400000, guid: 3b377d9f30869164d94411f1e8a1c839, type: 2}
   CommandDescriptionPos2: 
-  ActionsPos2: []
+  ActionsPos2:
+  - {fileID: 11400000, guid: efa61ad8ff6f853418ed522f5e5bc85a, type: 2}
+  - {fileID: 11400000, guid: 6764a5a709947f44981ba1efa6f3ea63, type: 2}
+  - {fileID: 11400000, guid: 80bb86a84816e8a48961de612e3908c0, type: 2}
+  - {fileID: 11400000, guid: 4c1672e9b6775b6459fc0b4f0c22e1f3, type: 2}
+  - {fileID: 11400000, guid: 340bba75539c5b7419e12a0d87aafa83, type: 2}
+  - {fileID: 11400000, guid: 42a6988bc6acb974cace79c3771e5591, type: 2}
   CommandDescriptionPos3: 
-  ActionsPos3: []
+  ActionsPos3:
+  - {fileID: 11400000, guid: efa61ad8ff6f853418ed522f5e5bc85a, type: 2}
+  - {fileID: 11400000, guid: 6764a5a709947f44981ba1efa6f3ea63, type: 2}
+  - {fileID: 11400000, guid: 80bb86a84816e8a48961de612e3908c0, type: 2}
+  - {fileID: 11400000, guid: c4cf8fc8a5db4e34393235b324288ff2, type: 2}
+  - {fileID: 11400000, guid: bd053bacb208c4b4bb6a2e7bd0e00622, type: 2}
+  - {fileID: 11400000, guid: 8b11ba3cac8f3074d85d9eaa598e78bb, type: 2}
+  - {fileID: 11400000, guid: ef9c8d5b1a47bcf428e753adb97cb6f1, type: 2}
+  - {fileID: 11400000, guid: 53638568ea5a5834683ef95173970e1c, type: 2}
   CommandDescriptionPos4: 
-  ActionsPos4: []
+  ActionsPos4:
+  - {fileID: 11400000, guid: efa61ad8ff6f853418ed522f5e5bc85a, type: 2}
+  - {fileID: 11400000, guid: 6764a5a709947f44981ba1efa6f3ea63, type: 2}
+  - {fileID: 11400000, guid: 80bb86a84816e8a48961de612e3908c0, type: 2}
+  - {fileID: 11400000, guid: 9b26f403844e3f7408ac2c0430abaa44, type: 2}
+  - {fileID: 11400000, guid: d6cfe23fd98b47c4f9bc3893a5bee059, type: 2}
+  - {fileID: 11400000, guid: 3ad1a6b7ea4aca244b7d40441bfd6bdf, type: 2}
+  - {fileID: 11400000, guid: 558278c8410d8f54d8008af399146947, type: 2}
+  - {fileID: 11400000, guid: 666846b2adff2af4db0aac56d47ba3bb, type: 2}
+  - {fileID: 11400000, guid: 3ebb2228ad16423488dc4b056986d703, type: 2}
+  - {fileID: 11400000, guid: 25372b91760283c4aa46ae15c5bbc29a, type: 2}
+  - {fileID: 11400000, guid: 282f25eeea0e2ad4bb6a9fb612640230, type: 2}
   CommandDescriptionPos5: 
-  ActionsPos5: []
+  ActionsPos5:
+  - {fileID: 11400000, guid: efa61ad8ff6f853418ed522f5e5bc85a, type: 2}
+  - {fileID: 11400000, guid: 6764a5a709947f44981ba1efa6f3ea63, type: 2}
+  - {fileID: 11400000, guid: 80bb86a84816e8a48961de612e3908c0, type: 2}
+  - {fileID: 11400000, guid: 9b26f403844e3f7408ac2c0430abaa44, type: 2}
+  - {fileID: 11400000, guid: d6cfe23fd98b47c4f9bc3893a5bee059, type: 2}
+  - {fileID: 11400000, guid: 3ad1a6b7ea4aca244b7d40441bfd6bdf, type: 2}
+  - {fileID: 11400000, guid: 558278c8410d8f54d8008af399146947, type: 2}
+  - {fileID: 11400000, guid: 666846b2adff2af4db0aac56d47ba3bb, type: 2}
+  - {fileID: 11400000, guid: 3ebb2228ad16423488dc4b056986d703, type: 2}
+  - {fileID: 11400000, guid: 25372b91760283c4aa46ae15c5bbc29a, type: 2}
+  - {fileID: 11400000, guid: 282f25eeea0e2ad4bb6a9fb612640230, type: 2}

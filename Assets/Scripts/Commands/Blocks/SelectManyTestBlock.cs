@@ -17,31 +17,54 @@ public class SelectManyTestBlock : AbstractBlock
 
     private UnityEvent _updateActions;
 
-    public float ButtonSizeWPadding;
+    public float ButtonsPadding = 0;
 
     private Dictionary<TestVariantAction, Text> _toggles = new Dictionary<TestVariantAction, Text>();
     private Stack<TestVariantAction> _currentActions = new Stack<TestVariantAction>();
 
     private void Start()
     {
+        float btnsHeight = ButtonsPadding;
         _updateActions = new UnityEvent();
+
+        var btnTextTransform = ButtonPrefab.GetComponentInChildren<Text>().transform as RectTransform;
+        var btnTextPadding = btnTextTransform.offsetMin.y - btnTextTransform.offsetMax.y;
+
+        var btns = new List<Toggle>();
+
         foreach (var a in _possibleActions)
         {
             var instance = Instantiate(ButtonPrefab);
             instance.transform.SetParent(_buttonsHolder, false);
-            instance.GetComponentInChildren<Text>().text = a.ActionName;
             instance.OnToggle.AddListener(s => TriggerActionInGM(a, s));
             instance.SetStateNoEvent(a.currentState);
 
             _updateActions.AddListener(() => instance.SetStateNoEvent(a.currentState));
 
+            instance.GetComponentInChildren<Text>().text = a.ActionName;
             instance.GetComponent<TooltipTrigger>().text = a.ActionName;
+
             var t = instance.transform.Find("SelectionNum").GetComponent<Text>();
             _toggles.Add(a, t);
+            btns.Add(instance);
         }
 
-        var contentSize = _possibleActions.Length * ButtonSizeWPadding + 20;
-        _buttonsHolder.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, contentSize);
+        IEnumerator corout()
+        {
+            yield return new WaitForEndOfFrame();
+            foreach (var instance in btns)
+            {
+                var textObj = instance.GetComponentInChildren<Text>();
+                var height = textObj.preferredHeight + btnTextPadding;
+
+                (instance.transform as RectTransform).SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, height);
+                btnsHeight += height + ButtonsPadding;
+            }
+
+            _buttonsHolder.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, btnsHeight);
+        }
+
+        StartCoroutine(corout());
 
         GameManager.Instance.TooltipIsAllowed = true;
     }

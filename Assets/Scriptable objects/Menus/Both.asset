@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: Both
   m_EditorClassIdentifier: 
   Name: "\u041E\u0431\u0435 \u043C\u0430\u0448\u0438\u043D\u044B"
-  childNodes: []
+  childNodes:
+  - {fileID: 11400000, guid: bf6e351125da9cb4d968602e6fabf774, type: 2}
   Prefab: {fileID: 2222694526678769920, guid: 159ec532b1cb83e48946418664698f53, type: 3}

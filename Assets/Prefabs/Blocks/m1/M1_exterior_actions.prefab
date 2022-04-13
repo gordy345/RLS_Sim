@@ -120,7 +120,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2747235387044941944}
   m_HandleRect: {fileID: 8082201600686537472}
   m_Direction: 2
-  m_Value: 0.9999954
+  m_Value: 0.9999957
   m_Size: 0.6889392
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -229,7 +229,7 @@ MonoBehaviour:
   _buttonsHolder: {fileID: 1459249851325531971}
   ButtonPrefab: {fileID: 5457588512452081513, guid: 02357976a2754e443842ba9f1b1aa034,
     type: 3}
-  ButtonSizeWPadding: 60
+  ButtonsPadding: 10
 --- !u!1 &3419012968676117181
 GameObject:
   m_ObjectHideFlags: 0
