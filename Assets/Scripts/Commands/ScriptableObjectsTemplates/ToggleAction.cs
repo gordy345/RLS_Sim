@@ -9,7 +9,7 @@ public class ToggleAction : Action
     [SerializeField]
     private bool _defaultState;
     [SerializeField]
-    private bool _requiredState;
+    private bool _requiredState = true;
 
     public override bool RemoveIfMatchingDefaultState => true;
     public bool DefaultState => _defaultState;

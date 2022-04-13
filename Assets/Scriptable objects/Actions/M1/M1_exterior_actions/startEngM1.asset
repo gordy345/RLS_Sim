@@ -9,13 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4b6fa3fa2b1086343b8ab285d4adb361, type: 3}
+  m_Script: {fileID: 11500000, guid: 48ae52f7b3de07f4d9484dc3a2ee8ff7, type: 3}
   m_Name: startEngM1
   m_EditorClassIdentifier: 
   ActionName: "\u0417\u0430\u0432\u0435\u0441\u0442\u0438 \u043C\u0430\u0448\u0438\u043D\u0443
     \u21161"
-  isUnordored: 1
-  relatedActionGroup: {fileID: 11400000, guid: f380a0a12298a7645849d759a71b66f3, type: 2}
+  isUnordored: 0
+  relatedActionGroup: {fileID: 0}
   _defaultState: 0
   _requiredState: 1
   currentState: 0

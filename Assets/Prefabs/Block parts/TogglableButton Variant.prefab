@@ -72,7 +72,7 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 10
     m_MaxSize: 40
-    m_Alignment: 4
+    m_Alignment: 3
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
@@ -355,6 +355,20 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 1887041560319485116}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &-7462866025907140465
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7860769263402340703}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b10e98401f843d64785f6dd094c47a1b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  text: 
+  _rectTransform: {fileID: 317104136140842455}
 --- !u!114 &6139519001688406286
 MonoBehaviour:
   m_ObjectHideFlags: 0

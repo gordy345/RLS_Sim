@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour
     [Header("Tooltip")]
     public TooltipPanel Tooltip;
     public float TooltipDelay;
-    public bool TooltipIsAllowed { get; private set; } = true;
+    public bool TooltipIsAllowed { get; set; } = true;
 
     [Header("Commands")]
     public Command[] CommandList;

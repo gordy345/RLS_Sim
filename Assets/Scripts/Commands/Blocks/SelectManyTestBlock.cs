@@ -1,13 +1,14 @@
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-public class Machine1 : AbstractBlock
+public class SelectManyTestBlock : AbstractBlock
 {
     [SerializeField]
-    private ToggleAction[] _possibleActions;
+    private TestVariantAction[] _possibleActions;
 
     [SerializeField]
     private RectTransform _buttonsHolder;
@@ -18,8 +19,8 @@ public class Machine1 : AbstractBlock
 
     public float ButtonSizeWPadding;
 
-    private Dictionary<ToggleAction, Text> _toggles = new Dictionary<ToggleAction, Text>();
-    private Stack<ToggleAction> _currentActions = new Stack<ToggleAction>();
+    private Dictionary<TestVariantAction, Text> _toggles = new Dictionary<TestVariantAction, Text>();
+    private Stack<TestVariantAction> _currentActions = new Stack<TestVariantAction>();
 
     private void Start()
     {
@@ -34,30 +35,41 @@ public class Machine1 : AbstractBlock
 
             _updateActions.AddListener(() => instance.SetStateNoEvent(a.currentState));
 
+            instance.GetComponent<TooltipTrigger>().text = a.ActionName;
             var t = instance.transform.Find("SelectionNum").GetComponent<Text>();
             _toggles.Add(a, t);
         }
 
         var contentSize = _possibleActions.Length * ButtonSizeWPadding + 20;
         _buttonsHolder.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, contentSize);
+
+        GameManager.Instance.TooltipIsAllowed = true;
     }
 
-    private void TriggerActionInGM(ToggleAction a, bool state)
+
+    private void OnDestroy()
+    {
+        GameManager.Instance.TooltipIsAllowed = false;
+    }
+
+    private void TriggerActionInGM(TestVariantAction a, bool state)
     {
         a.currentState = state;
         if (!_currentActions.Contains(a))
         {
+            a.SelectedIndex = _currentActions.Count;
             _toggles[a].text = (_currentActions.Count + 1).ToString();
             _currentActions.Push(a);
         }
         else
         {
-            var resetStack = new Stack<ToggleAction>();
-            ToggleAction last;
+            var resetStack = new Stack<TestVariantAction>();
+            TestVariantAction last;
             while(_currentActions.Count > 0)
             {
                 last = _currentActions.Pop();
                 _toggles[last].text = string.Empty;
+                last.SelectedIndex = -1;
                 if (last != a)
                 {
                     resetStack.Push(last);
@@ -70,6 +82,7 @@ public class Machine1 : AbstractBlock
             while (resetStack.Count > 0)
             {
                 var t = resetStack.Pop();
+                t.SelectedIndex = _currentActions.Count;
                 _toggles[t].text = (_currentActions.Count + 1).ToString();
                 _currentActions.Push(t);
             }
@@ -80,5 +93,13 @@ public class Machine1 : AbstractBlock
     public override void UpdateUI()
     {
         _updateActions.Invoke();
+        foreach (var a in _possibleActions.OrderBy(a => a.SelectedIndex))
+        {
+            if (a.currentState && a.SelectedIndex >= 0)
+            {
+                _toggles[a].text = (a.SelectedIndex + 1).ToString();
+                _currentActions.Push(a);
+            }
+        }
     }
 }
