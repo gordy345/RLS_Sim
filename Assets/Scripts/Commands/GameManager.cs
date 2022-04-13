@@ -23,6 +23,16 @@ public class GameManager : MonoBehaviour
     public RectTransform CommandButtonsUI;
     public Button CommandButtonPrefab;
 
+    [Header("Role Select Buttons")]
+    public RectTransform ButtonsHolder;
+    public GameObject RoleButton1;
+    public GameObject RoleButton2;
+    public GameObject RoleButton3;
+    public GameObject RoleButton4;
+    public GameObject RoleButton5;
+    public float RoleButtonWidth;
+    public float RoleButtonsSpacing;
+
     // state
     private Command _currentCommand;
     private int _personRole;
@@ -59,6 +69,23 @@ public class GameManager : MonoBehaviour
         TooltipIsAllowed = false;
         _currentCommand = command;
         CommandSelect.SetActive(false);
+
+        float totalWidth = -RoleButtonsSpacing;
+
+        RoleButton1.SetActive(command.Enabled_p1);
+        RoleButton2.SetActive(command.Enabled_p2);
+        RoleButton3.SetActive(command.Enabled_p3);
+        RoleButton4.SetActive(command.Enabled_p4);
+        RoleButton5.SetActive(command.Enabled_p5);
+
+        if (command.Enabled_p1) totalWidth += RoleButtonWidth + RoleButtonsSpacing;
+        if (command.Enabled_p2) totalWidth += RoleButtonWidth + RoleButtonsSpacing;
+        if (command.Enabled_p3) totalWidth += RoleButtonWidth + RoleButtonsSpacing;
+        if (command.Enabled_p4) totalWidth += RoleButtonWidth + RoleButtonsSpacing;
+        if (command.Enabled_p5) totalWidth += RoleButtonWidth + RoleButtonsSpacing;
+
+        ButtonsHolder.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, totalWidth);
+
         RoleSelect.SetActive(true);
     }
 

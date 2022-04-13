@@ -16,6 +16,7 @@ MonoBehaviour:
     \u043F\u0440\u0438 \u0437\u0430\u043D\u044F\u0442\u0438\u0438 \u043F\u043E\u0437\u0438\u0446\u0438\u0438
     \u0438 \u0440\u0430\u0437\u0432\u0435\u0440\u0442\u044B\u0432\u0430\u043D\u0438\u0438
     \u0441\u0442\u0430\u043D\u0446\u0438\u0438"
+  Enabled_p1: 1
   CommandDescriptionPos1: 
   ActionsPos1:
   - {fileID: 11400000, guid: ae1fa8c5c0c46154d90b685f57e93301, type: 2}
@@ -24,6 +25,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 573b8b13f47776e4fad32dc4c86d9acb, type: 2}
   - {fileID: 11400000, guid: 62a3b32f1cc1e9f4e9f5993db8ed4c46, type: 2}
   - {fileID: 11400000, guid: 3b377d9f30869164d94411f1e8a1c839, type: 2}
+  Enabled_p2: 1
   CommandDescriptionPos2: 
   ActionsPos2:
   - {fileID: 11400000, guid: efa61ad8ff6f853418ed522f5e5bc85a, type: 2}
@@ -32,6 +34,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 4c1672e9b6775b6459fc0b4f0c22e1f3, type: 2}
   - {fileID: 11400000, guid: 340bba75539c5b7419e12a0d87aafa83, type: 2}
   - {fileID: 11400000, guid: 42a6988bc6acb974cace79c3771e5591, type: 2}
+  Enabled_p3: 1
   CommandDescriptionPos3: 
   ActionsPos3:
   - {fileID: 11400000, guid: efa61ad8ff6f853418ed522f5e5bc85a, type: 2}
@@ -42,6 +45,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 8b11ba3cac8f3074d85d9eaa598e78bb, type: 2}
   - {fileID: 11400000, guid: ef9c8d5b1a47bcf428e753adb97cb6f1, type: 2}
   - {fileID: 11400000, guid: 53638568ea5a5834683ef95173970e1c, type: 2}
+  Enabled_p4: 1
   CommandDescriptionPos4: 
   ActionsPos4:
   - {fileID: 11400000, guid: efa61ad8ff6f853418ed522f5e5bc85a, type: 2}
@@ -55,6 +59,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3ebb2228ad16423488dc4b056986d703, type: 2}
   - {fileID: 11400000, guid: 25372b91760283c4aa46ae15c5bbc29a, type: 2}
   - {fileID: 11400000, guid: 282f25eeea0e2ad4bb6a9fb612640230, type: 2}
+  Enabled_p5: 1
   CommandDescriptionPos5: 
   ActionsPos5:
   - {fileID: 11400000, guid: efa61ad8ff6f853418ed522f5e5bc85a, type: 2}
