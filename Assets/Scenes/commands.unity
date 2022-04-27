@@ -4893,6 +4893,7 @@ MonoBehaviour:
   CommandList:
   - {fileID: 11400000, guid: 3387063b2e7297d4b983ab9b3c72bd47, type: 2}
   - {fileID: 11400000, guid: 9b7fa9c8723ed0c4292ca2ed5be244da, type: 2}
+  - {fileID: 11400000, guid: 5790f5db88dcd054ea3ad1141aef0e66, type: 2}
   CommandButtonsUI: {fileID: 1749276104}
   CommandButtonPrefab: {fileID: 1713035411062619847, guid: b9013ee502e97a6409c7059cd8092143,
     type: 3}
