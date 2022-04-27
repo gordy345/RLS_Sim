@@ -20,7 +20,14 @@ MonoBehaviour:
     \u043F\u043E\u043C\u0435\u0445"
   Enabled_p1: 1
   CommandDescriptionPos1: 
-  ActionsPos1: []
+  ActionsPos1:
+  - {fileID: 11400000, guid: 641be70fa2ce4054ab6e4a101001451f, type: 2}
+  - {fileID: 11400000, guid: 257b1b444efc8d64fa99210a2d213908, type: 2}
+  - {fileID: 11400000, guid: 8f9d863c16cb0d440854fa84767e9834, type: 2}
+  - {fileID: 11400000, guid: 8ba0565950b04ef4e91b435cb1e05294, type: 2}
+  - {fileID: 11400000, guid: 8bc6a8608b762504f8344f6086356d44, type: 2}
+  - {fileID: 11400000, guid: d92de5c5f5a86024e93dacd3e42a6da7, type: 2}
+  - {fileID: 11400000, guid: 0c0b1eba7fd005047bb737e0b1057290, type: 2}
   Enabled_p2: 1
   CommandDescriptionPos2: 
   ActionsPos2: []

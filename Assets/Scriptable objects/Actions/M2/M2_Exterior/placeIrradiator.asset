@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48ae52f7b3de07f4d9484dc3a2ee8ff7, type: 3}
   m_Name: placeIrradiator
   m_EditorClassIdentifier: 
-  ActionName: 
+  ActionName: "\u041D\u0430\u0437\u043D\u0430\u0447\u0438\u0442\u044C \u043C\u0435\u0441\u0442\u043E
+    \u0434\u043B\u044F \u043E\u0431\u043B\u0443\u0447\u0430\u0442\u0435\u043B\u044F"
   isUnordored: 0
   relatedActionGroup: {fileID: 0}
   _defaultState: 0
