@@ -101,6 +101,9 @@ public class GameManager : MonoBehaviour
         RoleSelect.SetActive(false);
         MainPanel.SetActive(true);
         MainPanel.OpenDefaultBlock();
+
+        if (_currentCommand.ShowIkoButton) IkoController.Instance.OpenIko();
+        else IkoController.Instance.CloseIko();
     }
 
     public void BackToCommandSelect()
