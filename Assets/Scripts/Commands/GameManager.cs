@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     public GameObject RoleSelect;
     public ActionsPanel MainPanel;
     public CheckResult CheckResultPanel;
+    public GameObject OpenIkoButton;
 
     [Header("Tooltip")]
     public TooltipPanel Tooltip;
@@ -32,6 +33,8 @@ public class GameManager : MonoBehaviour
     public GameObject RoleButton5;
     public float RoleButtonWidth;
     public float RoleButtonsSpacing;
+
+
 
     // state
     private Command _currentCommand;
@@ -92,6 +95,7 @@ public class GameManager : MonoBehaviour
     public void SetRole(int r)
     {
         _personRole = r;
+        OpenIkoButton.SetActive(_currentCommand.ShowIkoButton);
         RoleSelect.SetActive(false);
         MainPanel.SetActive(true);
         MainPanel.OpenDefaultBlock();
@@ -153,7 +157,6 @@ public class GameManager : MonoBehaviour
 
         if (actions.Count != req.Length)
         {
-            //Debug.Log("Fail on items count check");
             FailCheck();
             return;
         }
@@ -162,15 +165,11 @@ public class GameManager : MonoBehaviour
         foreach (var a in actions) 
         {
             var r = req[i];
-            //Debug.Log("action: " + a.ActionName + ", id: " + a.GetInstanceID() + " is in group: " + a.isUnordored +
-            //    " | reqired: " + r.ActionName + ", id: " + r.GetInstanceID() + " | ref equal: " + (a == r));
-
             if (
                 a.ActionName != r.ActionName &&
                 a.GetInstanceID() != r.GetInstanceID()
                 )
             {
-                //Debug.Log("Fail on items validation");
                 FailCheck();
                 return;
             }
@@ -181,7 +180,6 @@ public class GameManager : MonoBehaviour
 
         if (actions.Any(a => !a.IsInRequiredState()))
         {
-            //Debug.Log("Fail on items state validation");
             FailCheck();
             return;
         }
@@ -234,5 +232,10 @@ public class GameManager : MonoBehaviour
         {
             actions.Add(a);
         }
+    }
+
+    public void OpenIko()
+    {
+        Debug.Log("Open IKO");
     }
 }

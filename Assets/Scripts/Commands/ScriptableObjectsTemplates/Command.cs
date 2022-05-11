@@ -6,6 +6,7 @@ using UnityEngine;
 public class Command : ScriptableObject
 {
     public string CommandName;
+    public bool ShowIkoButton;
 
     [Header("Pos 1")]
     public bool Enabled_p1 = true;
