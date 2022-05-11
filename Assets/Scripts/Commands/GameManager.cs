@@ -14,7 +14,6 @@ public class GameManager : MonoBehaviour
     public CheckResult CheckResultPanel;
 
     [Header("IKO")]
-    public GameObject IkoObject;
     public GameObject OpenIkoButton;
 
     [Header("Tooltip")]
@@ -68,7 +67,6 @@ public class GameManager : MonoBehaviour
     {
         Tooltip.Show("", null);
         Tooltip.Hide();
-        IkoObject.SetActive(false);
     }
 
     private void StartCommandScript(Command command)
@@ -236,15 +234,5 @@ public class GameManager : MonoBehaviour
         {
             actions.Add(a);
         }
-    }
-
-    public void OpenIko()
-    {
-        IkoObject.SetActive(true);
-    }
-
-    public void CloseIko()
-    {
-        IkoObject.SetActive(false);
     }
 }

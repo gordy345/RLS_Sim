@@ -693,7 +693,6 @@ RectTransform:
   - {fileID: 2013229675}
   - {fileID: 654966040}
   - {fileID: 1638230793}
-  - {fileID: 916559455}
   m_Father: {fileID: 2054083309}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3511,14 +3510,14 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 916559454}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2105105517}
   - {fileID: 1584113454}
   - {fileID: 276533681}
-  m_Father: {fileID: 145738258}
+  m_Father: {fileID: 2054083309}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -3579,7 +3578,7 @@ MonoBehaviour:
   Grid: {fileID: 149995543}
   Line: {fileID: 1881485585}
   BrightnessController: {fileID: 1759583343}
-  LineRotationSpeed: -5
+  LineRotationSpeed: -36
 --- !u!1 &952638284
 GameObject:
   m_ObjectHideFlags: 0
@@ -5449,8 +5448,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1772244805}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+      - m_Target: {fileID: 916559458}
+        m_TargetAssemblyTypeName: IkoController, Assembly-CSharp
         m_MethodName: OpenIko
         m_Mode: 1
         m_Arguments:
@@ -6913,6 +6912,7 @@ RectTransform:
   - {fileID: 1876571335}
   - {fileID: 145738258}
   - {fileID: 2065848896}
+  - {fileID: 916559455}
   m_Father: {fileID: 1104457977}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -7240,7 +7240,7 @@ GameObject:
   - component: {fileID: 2105105519}
   - component: {fileID: 2105105518}
   m_Layer: 5
-  m_Name: ButtonBack
+  m_Name: ButtonClose
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7310,8 +7310,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1772244805}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+      - m_Target: {fileID: 916559458}
+        m_TargetAssemblyTypeName: IkoController, Assembly-CSharp
         m_MethodName: CloseIko
         m_Mode: 1
         m_Arguments:

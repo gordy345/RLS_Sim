@@ -21,10 +21,20 @@ public class IkoController : MonoBehaviour
     [SerializeField]
     private float LineRotationSpeed;
     private const float _defaultBrightness = 0.5f;
+    private float _closeTime = -1f;
+    private bool _open = false;
 
-    // Start is called before the first frame update
+    public static IkoController Instance { get; private set; }
+
+    private void Awake()
+    {
+        Instance = this;
+        _closeTime = Time.time;
+    }
+
     void Start()
     {
+        gameObject.SetActive(false);
         _gridMat = Instantiate(Grid.material);
         Grid.material = _gridMat;
         _colorGrid = _gridMat.color;
@@ -33,12 +43,10 @@ public class IkoController : MonoBehaviour
         BrightnessController.value = _defaultBrightness;
     }
 
-    // Update is called once per frame
     void Update()
     {
         var angles = Line.transform.localEulerAngles;
         angles.z += LineRotationSpeed * Time.deltaTime;
-        angles.z %= 360;
         Line.transform.localEulerAngles = angles;
     }
 
@@ -47,5 +55,25 @@ public class IkoController : MonoBehaviour
         _colorGrid.a = value;
         _gridMat.color = _colorGrid;
         Grid.material = _gridMat;
+    }
+
+    public void OpenIko()
+    {
+        gameObject.SetActive(true);
+        if (!_open)
+        {
+            _open = true;
+            return;
+        }
+        var dt = Time.time - _closeTime;
+        var angles = Line.transform.localEulerAngles;
+        angles.z += LineRotationSpeed * dt;
+        Line.transform.localEulerAngles = angles;
+    }
+
+    public void CloseIko()
+    {
+        gameObject.SetActive(false);
+        _closeTime = Time.time;
     }
 }
