@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: '!_test'
   m_EditorClassIdentifier: 
   CommandName: "\u0442\u0435\u0441\u0442"
+  ShowIkoButton: 1
   Enabled_p1: 1
   CommandDescriptionPos1: 
   ActionsPos1:
