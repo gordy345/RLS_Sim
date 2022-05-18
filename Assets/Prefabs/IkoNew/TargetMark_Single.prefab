@@ -135,6 +135,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _canvas: {fileID: 4897443933279652842}
+  _minAlpha: 0.3
 --- !u!225 &4897443933279652842
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -146,4 +147,4 @@ CanvasGroup:
   m_Alpha: 1
   m_Interactable: 1
   m_BlocksRaycasts: 1
-  m_IgnoreParentGroups: 1
+  m_IgnoreParentGroups: 0

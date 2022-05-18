@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class IkoController : MonoBehaviour
@@ -54,9 +55,10 @@ public class IkoController : MonoBehaviour
     private const float _defaultBrightness = 0.5f;
     private IkoTarget _lastTarget;
     private bool _hasStarted;
-    private int rounds = 0;
 
     public static IkoController Instance { get; private set; }
+
+    public event UnityAction OnReset;
 
     private void Awake()
     {
@@ -84,14 +86,6 @@ public class IkoController : MonoBehaviour
         var lastAngle = angles.z;
         angles.z += LineRotationSpeed * Time.deltaTime;
         Line.transform.localEulerAngles = angles;
-        if (lastAngle < 90 && angles.z >= 90)
-        {
-            rounds++;
-            if (rounds == 4)
-            {
-                GenerateInterference();
-            }
-        }
     }
 
     public void BrightnessChanged(float value)
@@ -175,7 +169,7 @@ public class IkoController : MonoBehaviour
 
     public void GenerateInterference()
     {
-        Debug.Log("??????");
+        Debug.Log("GenerateInterference");
     }
 
     public void StartTest()
@@ -183,17 +177,24 @@ public class IkoController : MonoBehaviour
         if (_hasStarted) return;
         _hasStarted = true;
         GenerateTargets();
-        rounds = 0;
         StartButton.interactable = false;
     }
 
     public void Reset()
     {
         _hasStarted = false;
-        rounds = 0;
         Destroy(_lastTarget);
         _lastTarget = null;
         Line.transform.localEulerAngles = new Vector3(0, 0, 90);
         StartButton.interactable = true;
+        OnReset?.Invoke();
+    }
+
+    public void OnRound(int round)
+    {
+        if (round == 4)
+        {
+            GenerateInterference();
+        }
     }
 }
