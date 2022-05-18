@@ -16,13 +16,20 @@ public class IkoTarget : MonoBehaviour
     public GameObject TargetPrefabDetermined;
 
     private bool _isRevealed;
-    //private bool _isDetermined;
 
-    public Vector3 currentPos { get; private set; }
+    private float _lineLen;
+    private Vector2 _lineStartPos;
+
+    public Vector2 currentPos { get; private set; }
 
     private void Start()
     {
         transform.position = StartPos;
+        _lineLen = Random.Range(
+            IkoController.Instance.MinTargetLineLength,
+            IkoController.Instance.MaxTargetLineLength
+        );
+        _lineStartPos = StartPos;
     }
 
     private void FixedUpdate()
@@ -32,6 +39,16 @@ public class IkoTarget : MonoBehaviour
         newPos.y = transform.position.y;
         currentPos = newPos + MotionVel * Time.deltaTime;
         transform.position = currentPos;
+
+        if ((currentPos - _lineStartPos).magnitude >= _lineLen)
+        {
+            _lineStartPos = currentPos;
+            var angle = Random.Range(
+                -IkoController.Instance._maxTargetAngleDeviation,
+                +IkoController.Instance._maxTargetAngleDeviation
+            );
+            MotionVel = Quaternion.Euler(0, 0, angle) * MotionVel;
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

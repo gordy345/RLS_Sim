@@ -4478,10 +4478,13 @@ MonoBehaviour:
   MaxDistanceToTarget: 4.15
   MinDistanceToTarget: 3.8
   MaxTargetVel: 0.015
-  MinTargetVel: 0.007
+  MinTargetVel: 0.01
   TargetsDirectionSpreadAngle: 100
   TargetsDissolveTime: 15
   InterferenceTimeOffset: 10
+  MinTargetLineLength: 0.1
+  MaxTargetLineLength: 0.5
+  _maxTargetAngleDeviation: 25
   IkoTargetPrefab: {fileID: 2420257368016472277, guid: edc9691f5f8e37043806cdffdbd8758d,
     type: 3}
   TargetSingle: {fileID: 1330522258578565827, guid: 5eef4e5559cb1fe42a835ac083c84b69,
@@ -4494,7 +4497,7 @@ MonoBehaviour:
     type: 3}
   PassiveInterferencePrefab: {fileID: 2762189273162876150, guid: cecdd0fd177056347bd14eb8706319bd,
     type: 3}
-  _passiveIntRadius: 1
+  _passiveIntRadius: 0.5
   _buttonSingleTarget: {fileID: 782622911}
   _buttonGroupTarget: {fileID: 309914186}
   _buttonOursTarget: {fileID: 218519506}
@@ -6560,6 +6563,7 @@ GameObject:
   - component: {fileID: 1584113454}
   - component: {fileID: 1584113456}
   - component: {fileID: 1584113455}
+  - component: {fileID: 1584113457}
   m_Layer: 5
   m_Name: Display
   m_TagString: Untagged
@@ -6629,6 +6633,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1584113453}
   m_CullTransparentMesh: 1
+--- !u!114 &1584113457
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1584113453}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31a19414c41e5ae4aae2af33fee712f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShowMaskGraphic: 1
 --- !u!1 &1612346717
 GameObject:
   m_ObjectHideFlags: 0

@@ -43,6 +43,10 @@ public class IkoController : MonoBehaviour
     [SerializeField]
     private float InterferenceTimeOffset;
 
+    public float MinTargetLineLength;
+    public float MaxTargetLineLength;
+    public float _maxTargetAngleDeviation;
+
     [Header("Target Prefabs")]
     [SerializeField]
     private IkoTarget IkoTargetPrefab;
@@ -203,8 +207,8 @@ public class IkoController : MonoBehaviour
         offset *= _passiveIntRadius;
         var instance = Instantiate(PassiveInterferencePrefab);
         instance.transform.position = _lastTarget.currentPos + 
-            (Vector3)offset + 
-            (Vector3)(InterferenceTimeOffset * _lastTarget.MotionVel);
+            offset + 
+            InterferenceTimeOffset * _lastTarget.MotionVel;
         instance.transform.SetParent(InterferenceFolder, true);
         instance.transform.localScale = Vector3.one;
 

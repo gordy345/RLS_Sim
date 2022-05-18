@@ -48,6 +48,7 @@ public class InerferenceTarget : MonoBehaviour
 
     private void ChangeBrightness(float brightness)
     {
+        if (_instance == null) return;
         _instance.alpha = brightness;
     }
 
