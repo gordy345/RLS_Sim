@@ -207,6 +207,9 @@ public class IkoController : MonoBehaviour
             (Vector3)(InterferenceTimeOffset * _lastTarget.MotionVel);
         instance.transform.SetParent(InterferenceFolder, true);
         instance.transform.localScale = Vector3.one;
+
+        var rotation = Random.Range(0, 360f);
+        instance.transform.rotation = Quaternion.Euler(0, 0, rotation);
     }
 
     public void StartTest()
