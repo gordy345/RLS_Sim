@@ -18,6 +18,8 @@ public class IkoTarget : MonoBehaviour
     private bool _isRevealed;
     //private bool _isDetermined;
 
+    public Vector3 currentPos { get; private set; }
+
     private void Start()
     {
         transform.position = StartPos;
@@ -28,11 +30,13 @@ public class IkoTarget : MonoBehaviour
         Vector2 newPos;
         newPos.x = transform.position.x;
         newPos.y = transform.position.y;
-        transform.position = newPos + MotionVel * Time.deltaTime;
+        currentPos = newPos + MotionVel * Time.deltaTime;
+        transform.position = currentPos;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (collision.tag != "Line") return;
         GameObject instance = null;
         if (!_isRevealed)
         {

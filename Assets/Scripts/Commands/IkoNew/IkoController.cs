@@ -17,6 +17,8 @@ public class IkoController : MonoBehaviour
     public Transform TargetsFolder;
     [SerializeField]
     private CanvasGroup _group;
+    [SerializeField]
+    private Transform InterferenceFolder;
 
     [Header("Controls objects")]
     [SerializeField]
@@ -38,8 +40,10 @@ public class IkoController : MonoBehaviour
     [SerializeField]
     private float TargetsDirectionSpreadAngle;
     public float TargetsDissolveTime;
+    [SerializeField]
+    private float InterferenceTimeOffset;
 
-    [Header("Prefabs")]
+    [Header("Target Prefabs")]
     [SerializeField]
     private IkoTarget IkoTargetPrefab;
     [SerializeField]
@@ -51,6 +55,12 @@ public class IkoController : MonoBehaviour
     [SerializeField]
     private GameObject TargetGroupOurs;
 
+    [Header("Interference Prefabs")]
+    [SerializeField]
+    private GameObject PassiveInterferencePrefab;
+    [SerializeField]
+    private float _passiveIntRadius;
+
     [Header("Test buttons")]
     [SerializeField]
     private Button _buttonSingleTarget;
@@ -61,9 +71,11 @@ public class IkoController : MonoBehaviour
     [SerializeField]
     private Button _buttonOthersTarget;
     [SerializeField]
-    private Color _colorDisabledChecked;
-    [SerializeField]
     private Color _colorDisabledUnchecked;
+    [SerializeField]
+    private Color _colorDisabledCheckedValid;
+    [SerializeField]
+    private Color _colorDisabledCheckedInvalid;
 
 
     private const float _defaultBrightness = 0.5f;
@@ -186,7 +198,15 @@ public class IkoController : MonoBehaviour
 
     public void GenerateInterference()
     {
-        Debug.Log("GenerateInterference");
+        var offset = _lastTarget.MotionVel;
+        offset.Normalize();
+        offset *= _passiveIntRadius;
+        var instance = Instantiate(PassiveInterferencePrefab);
+        instance.transform.position = _lastTarget.currentPos + 
+            (Vector3)offset + 
+            (Vector3)(InterferenceTimeOffset * _lastTarget.MotionVel);
+        instance.transform.SetParent(InterferenceFolder, true);
+        instance.transform.localScale = Vector3.one;
     }
 
     public void StartTest()
@@ -217,7 +237,7 @@ public class IkoController : MonoBehaviour
 
     public void OnRound(int round)
     {
-        if (round == 2)
+        if (round == 3)
         {
             _buttonOthersTarget.interactable = true;
             _buttonOursTarget.interactable = true;
@@ -230,7 +250,7 @@ public class IkoController : MonoBehaviour
 
     public void Test_GroupSingle(bool isGroup)
     {
-        Debug.Log($"is correct answer: {_lastTarget.IsGroup == isGroup}");
+        //Debug.Log($"is correct answer: {_lastTarget.IsGroup == isGroup}");
         _buttonSingleTarget.interactable = false;
         _buttonGroupTarget.interactable = false;
 
@@ -238,13 +258,17 @@ public class IkoController : MonoBehaviour
         var cols_s = _buttonSingleTarget.colors;
         if (isGroup)
         {
-            cols_g.disabledColor = _colorDisabledChecked;
+            cols_g.disabledColor = _lastTarget.IsGroup ?
+                _colorDisabledCheckedValid :
+                _colorDisabledCheckedInvalid;
             cols_s.disabledColor = _colorDisabledUnchecked;
         }
         else
         {
             cols_g.disabledColor = _colorDisabledUnchecked;
-            cols_s.disabledColor = _colorDisabledChecked;
+            cols_s.disabledColor = !_lastTarget.IsGroup ?
+                _colorDisabledCheckedValid :
+                _colorDisabledCheckedInvalid;
         }
         _buttonGroupTarget.colors = cols_g;
         _buttonSingleTarget.colors = cols_s;
@@ -252,7 +276,7 @@ public class IkoController : MonoBehaviour
 
     public void Test_TheirOurs(bool isOurs)
     {
-        Debug.Log($"is correct answer: {_lastTarget.IsOurs == isOurs}");
+        //Debug.Log($"is correct answer: {_lastTarget.IsOurs == isOurs}");
         _buttonOthersTarget.interactable = false;
         _buttonOursTarget.interactable = false;
 
@@ -260,13 +284,17 @@ public class IkoController : MonoBehaviour
         var cols_t = _buttonOthersTarget.colors;
         if (isOurs)
         {
-            cols_o.disabledColor = _colorDisabledChecked;
+            cols_o.disabledColor = _lastTarget.IsOurs?
+                _colorDisabledCheckedValid :
+                _colorDisabledCheckedInvalid;
             cols_t.disabledColor = _colorDisabledUnchecked;
         }
         else
         {
             cols_o.disabledColor = _colorDisabledUnchecked;
-            cols_t.disabledColor = _colorDisabledChecked;
+            cols_t.disabledColor = !_lastTarget.IsOurs ?
+                _colorDisabledCheckedValid :
+                _colorDisabledCheckedInvalid;
         }
         _buttonOursTarget.colors = cols_o;
         _buttonOthersTarget.colors = cols_t;
