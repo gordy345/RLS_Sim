@@ -51,6 +51,20 @@ public class IkoController : MonoBehaviour
     [SerializeField]
     private GameObject TargetGroupOurs;
 
+    [Header("Test buttons")]
+    [SerializeField]
+    private Button _buttonSingleTarget;
+    [SerializeField]
+    private Button _buttonGroupTarget;
+    [SerializeField]
+    private Button _buttonOursTarget;
+    [SerializeField]
+    private Button _buttonOthersTarget;
+    [SerializeField]
+    private Color _colorDisabledChecked;
+    [SerializeField]
+    private Color _colorDisabledUnchecked;
+
 
     private const float _defaultBrightness = 0.5f;
     private IkoTarget _lastTarget;
@@ -76,6 +90,9 @@ public class IkoController : MonoBehaviour
 
         gameObject.SetActive(true);
         CloseIko();
+
+        Reset();
+
     }
 
     void Update()
@@ -178,23 +195,112 @@ public class IkoController : MonoBehaviour
         _hasStarted = true;
         GenerateTargets();
         StartButton.interactable = false;
+
+        _buttonGroupTarget.interactable = true;
+        _buttonSingleTarget.interactable = true;
     }
 
     public void Reset()
     {
         _hasStarted = false;
-        Destroy(_lastTarget);
+        if (_lastTarget != null) Destroy(_lastTarget);
         _lastTarget = null;
         Line.transform.localEulerAngles = new Vector3(0, 0, 90);
         StartButton.interactable = true;
         OnReset?.Invoke();
+        ResetButtonsColors();
+        _buttonGroupTarget.interactable = false;
+        _buttonSingleTarget.interactable = false;
+        _buttonOthersTarget.interactable = false;
+        _buttonOursTarget.interactable = false;
     }
 
     public void OnRound(int round)
     {
+        if (round == 2)
+        {
+            _buttonOthersTarget.interactable = true;
+            _buttonOursTarget.interactable = true;
+        }
         if (round == 4)
         {
             GenerateInterference();
         }
     }
+
+    public void Test_GroupSingle(bool isGroup)
+    {
+        Debug.Log($"is correct answer: {_lastTarget.IsGroup == isGroup}");
+        _buttonSingleTarget.interactable = false;
+        _buttonGroupTarget.interactable = false;
+
+        var cols_g = _buttonGroupTarget.colors;
+        var cols_s = _buttonSingleTarget.colors;
+        if (isGroup)
+        {
+            cols_g.disabledColor = _colorDisabledChecked;
+            cols_s.disabledColor = _colorDisabledUnchecked;
+        }
+        else
+        {
+            cols_g.disabledColor = _colorDisabledUnchecked;
+            cols_s.disabledColor = _colorDisabledChecked;
+        }
+        _buttonGroupTarget.colors = cols_g;
+        _buttonSingleTarget.colors = cols_s;
+    }
+
+    public void Test_TheirOurs(bool isOurs)
+    {
+        Debug.Log($"is correct answer: {_lastTarget.IsOurs == isOurs}");
+        _buttonOthersTarget.interactable = false;
+        _buttonOursTarget.interactable = false;
+
+        var cols_o = _buttonOursTarget.colors;
+        var cols_t = _buttonOthersTarget.colors;
+        if (isOurs)
+        {
+            cols_o.disabledColor = _colorDisabledChecked;
+            cols_t.disabledColor = _colorDisabledUnchecked;
+        }
+        else
+        {
+            cols_o.disabledColor = _colorDisabledUnchecked;
+            cols_t.disabledColor = _colorDisabledChecked;
+        }
+        _buttonOursTarget.colors = cols_o;
+        _buttonOthersTarget.colors = cols_t;
+    }
+
+    private void ResetButtonsColors()
+    {
+        var cols = _buttonOursTarget.colors;
+        cols.disabledColor = _colorDisabledUnchecked;
+
+        _buttonGroupTarget.colors = cols;
+        _buttonOthersTarget.colors = cols;
+        _buttonOursTarget.colors = cols;
+        _buttonSingleTarget.colors = cols;
+    }
+
+    #region Interference
+    public event UnityAction<float> OnPassiveIntChange;
+
+    private float _passiveIntLevel = 1f;
+    public float PassiveInterferenceLevel
+    {
+        get { return _passiveIntLevel; }
+        set
+        {
+            _passiveIntLevel = value;
+            OnPassiveIntChange?.Invoke(value);
+        }
+    }
+
+    public void TestInt()
+    {
+        PassiveInterferenceLevel = 0.1f;
+    }
+
+    #endregion
 }
