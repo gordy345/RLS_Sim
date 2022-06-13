@@ -101,10 +101,29 @@ public class IkoController : MonoBehaviour
         {
             _currentMistakes = value;
             if (_currentMistakes >= _maxMistakes)
+            {
+                _hasStarted = false;
                 GameManager.Instance.FailCheck();
+            }
         }
     }
-
+    private int _currentAnswers = 0;
+    private int _reqiredAnswers = 3;
+    private int Answers
+    {
+        get => _currentAnswers;
+        set
+        {
+            _currentAnswers = value;
+            if (_currentAnswers == _reqiredAnswers && Mistakes < _maxMistakes)
+            {
+                //CloseIko();
+                GameManager.Instance.AddToState(CheckPoint);
+            }
+        }
+    }
+    [SerializeField]
+    private ActionIkoCheck CheckPoint = null;
 
     public static IkoController Instance { get; private set; }
 
@@ -266,6 +285,16 @@ public class IkoController : MonoBehaviour
             b.interactable = false;
         }
 
+        foreach (Transform obj in InterferenceFolder)
+        {
+            Destroy(obj.gameObject);
+        }
+
+        foreach (Transform obj in TargetsFolder)
+        {
+            Destroy(obj.gameObject);
+        }
+
         Mistakes = 0;
     }
 
@@ -316,6 +345,7 @@ public class IkoController : MonoBehaviour
 
         _buttonGroupTarget.colors = cols_g;
         _buttonSingleTarget.colors = cols_s;
+        Answers++;
     }
 
     public void Test_TheirOurs(bool isOurs)
@@ -345,6 +375,7 @@ public class IkoController : MonoBehaviour
 
         _buttonOursTarget.colors = cols_o;
         _buttonOthersTarget.colors = cols_t;
+        Answers++;
     }
 
 
@@ -371,6 +402,7 @@ public class IkoController : MonoBehaviour
         }
         selected.colors = col_sel;
 
+        Answers++;
     }
 
     private void ResetButtonsColors()

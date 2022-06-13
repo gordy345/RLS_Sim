@@ -17,6 +17,7 @@ MonoBehaviour:
   Enabled_p1: 1
   CommandDescriptionPos1: 
   ActionsPos1:
+  - {fileID: 11400000, guid: 8301d15f9565fd74cba0549cf64b655c, type: 2}
   - {fileID: 11400000, guid: 84ea5503e90c58841859e11b42a08998, type: 2}
   - {fileID: 11400000, guid: bc1fb36f84a93334d95935992b471939, type: 2}
   - {fileID: 11400000, guid: 61bb1658aca65d34bb046a1db3b496ae, type: 2}

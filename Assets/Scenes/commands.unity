@@ -5131,7 +5131,7 @@ RectTransform:
   - {fileID: 1584113454}
   - {fileID: 276533681}
   m_Father: {fileID: 2054083309}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -5234,6 +5234,7 @@ MonoBehaviour:
   _colorDisabledCheckedValid: {r: 0.19078422, g: 0.695, b: 0, a: 1}
   _colorDisabledCheckedInvalid: {r: 0.7075472, g: 0.1768868, b: 0.1768868, a: 1}
   _maxMistakes: 2
+  CheckPoint: {fileID: 11400000, guid: 8301d15f9565fd74cba0549cf64b655c, type: 2}
 --- !u!225 &916559459
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -9868,8 +9869,8 @@ RectTransform:
   - {fileID: 341247341}
   - {fileID: 1876571335}
   - {fileID: 145738258}
-  - {fileID: 2065848896}
   - {fileID: 916559455}
+  - {fileID: 2065848896}
   m_Father: {fileID: 1104457977}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -9950,7 +9951,7 @@ RectTransform:
   - {fileID: 1264172087}
   - {fileID: 1128851971}
   m_Father: {fileID: 2054083309}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
