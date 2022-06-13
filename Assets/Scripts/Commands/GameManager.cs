@@ -145,6 +145,7 @@ public class GameManager : MonoBehaviour
         }
         actions.Clear();
         MainPanel.UpdateCurrentBlockUI(true);
+        IkoController.Instance.Reset();
     }
 
     public void CheckOrder()
@@ -191,13 +192,13 @@ public class GameManager : MonoBehaviour
         PassCheck();
     }
 
-    private void FailCheck()
+    public void FailCheck()
     {
         CheckResultPanel.gameObject.SetActive(true);
         CheckResultPanel.ShowFailMessage();
     }
 
-    private void PassCheck()
+    public void PassCheck()
     {
         CheckResultPanel.gameObject.SetActive(true);
         CheckResultPanel.ShowPassMessage();

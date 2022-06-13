@@ -3,13 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum InterferenceType
-{
-    None,
-    Passive,
-    LocalObjects,
-}
-
 [RequireComponent(typeof(Collider2D))]
 public class InerferenceTarget : MonoBehaviour
 {

@@ -75,6 +75,10 @@ public class IkoController : MonoBehaviour
     [SerializeField]
     private Button _buttonOthersTarget;
     [SerializeField]
+    private List<Button> InterferenceButtons;
+
+    [Header("Button Colors")]
+    [SerializeField]
     private Color _colorDisabledUnchecked;
     [SerializeField]
     private Color _colorDisabledCheckedValid;
@@ -85,6 +89,22 @@ public class IkoController : MonoBehaviour
     private const float _defaultBrightness = 0.5f;
     private IkoTarget _lastTarget;
     private bool _hasStarted;
+
+    [Header("Mistakes Check")]
+    [SerializeField]
+    private int _maxMistakes = 2;
+    private int _currentMistakes = 0;
+    private int Mistakes
+    {
+        get => _currentMistakes;
+        set
+        {
+            _currentMistakes = value;
+            if (_currentMistakes >= _maxMistakes)
+                GameManager.Instance.FailCheck();
+        }
+    }
+
 
     public static IkoController Instance { get; private set; }
 
@@ -108,7 +128,6 @@ public class IkoController : MonoBehaviour
         CloseIko();
 
         Reset();
-
     }
 
     void Update()
@@ -235,11 +254,19 @@ public class IkoController : MonoBehaviour
         Line.transform.localEulerAngles = new Vector3(0, 0, 90);
         StartButton.interactable = true;
         OnReset?.Invoke();
+
         ResetButtonsColors();
         _buttonGroupTarget.interactable = false;
         _buttonSingleTarget.interactable = false;
         _buttonOthersTarget.interactable = false;
         _buttonOursTarget.interactable = false;
+
+        foreach (var b in InterferenceButtons)
+        {
+            b.interactable = false;
+        }
+
+        Mistakes = 0;
     }
 
     public void OnRound(int round)
@@ -252,8 +279,15 @@ public class IkoController : MonoBehaviour
         if (round == 4)
         {
             GenerateInterference();
+
+            foreach (var b in InterferenceButtons)
+            {
+                b.interactable = true;
+            }
         }
     }
+
+    #region Buttons
 
     public void Test_GroupSingle(bool isGroup)
     {
@@ -277,6 +311,9 @@ public class IkoController : MonoBehaviour
                 _colorDisabledCheckedValid :
                 _colorDisabledCheckedInvalid;
         }
+
+        if (isGroup != _lastTarget.IsGroup) Mistakes++;
+
         _buttonGroupTarget.colors = cols_g;
         _buttonSingleTarget.colors = cols_s;
     }
@@ -303,8 +340,37 @@ public class IkoController : MonoBehaviour
                 _colorDisabledCheckedValid :
                 _colorDisabledCheckedInvalid;
         }
+
+        if (isOurs != _lastTarget.IsOurs) Mistakes++;
+
         _buttonOursTarget.colors = cols_o;
         _buttonOthersTarget.colors = cols_t;
+    }
+
+
+    public void Test_Interference(int interferenceType)
+    {
+        var index = interferenceType - 1;
+        var selected = InterferenceButtons[index];
+
+        var col_sel = selected.colors;
+        var col_notSel = selected.colors;
+
+        const InterferenceType generated = InterferenceType.Passive;
+        if ((InterferenceType)interferenceType == generated)
+            col_sel.disabledColor = _colorDisabledCheckedValid;
+        else
+            col_sel.disabledColor = _colorDisabledCheckedInvalid;
+
+        col_notSel.disabledColor = _colorDisabledUnchecked;
+
+        foreach (var b in InterferenceButtons)
+        {
+            b.interactable = false;
+            b.colors = col_notSel;
+        }
+        selected.colors = col_sel;
+
     }
 
     private void ResetButtonsColors()
@@ -316,9 +382,17 @@ public class IkoController : MonoBehaviour
         _buttonOthersTarget.colors = cols;
         _buttonOursTarget.colors = cols;
         _buttonSingleTarget.colors = cols;
+
+        foreach (var b in InterferenceButtons)
+        {
+            b.colors = cols;
+        }
     }
 
+    #endregion
+
     #region Interference
+
     public event UnityAction<float> OnPassiveIntChange;
 
     private float _passiveIntLevel = 1f;
@@ -338,4 +412,16 @@ public class IkoController : MonoBehaviour
     }
 
     #endregion
+}
+
+[System.Serializable]
+public enum InterferenceType
+{
+    None = 0,
+    Passive = 1,
+    LocalObjects = 2,
+    NonlinearImpulse = 3,
+    ActiveNoice = 4,
+    ResponseImpulse = 5,
+    ActiveImitating = 6,
 }
