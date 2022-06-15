@@ -494,7 +494,7 @@ public class IkoController : MonoBehaviour
         );
         var alpha = Mathf.Lerp(1, _minInterferenceBrightness, lerpVal);
         PassiveInterferenceLevel = alpha;
-        Debug.Log($"strob start changed: {value}, new alpha: {alpha} (lerpVal: {lerpVal})");
+        //Debug.Log($"strob start changed: {value}, new alpha: {alpha} (lerpVal: {lerpVal})");
     }
 
     public void ValidateStrob()
