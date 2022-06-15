@@ -10,11 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 11f212beab9de6849aa18065c4836c76, type: 3}
-  m_Name: Area1
+  m_Name: POS72
   m_EditorClassIdentifier: 
-  Name: Test area 1
-  childNodes:
-  - {fileID: 11400000, guid: 783439ac0ef0d7b4f954cea892fecbb9, type: 2}
-  - {fileID: 11400000, guid: 70e5cd75c90dd6f4e869ef37587e3be9, type: 2}
-  - {fileID: 11400000, guid: 96d4ac86b62b7f14992ee56981ccbfc8, type: 2}
-  Prefab: {fileID: 0}
+  Name: "\u041F\u041E\u0421-72"
+  childNodes: []
+  Prefab: {fileID: 7935366440742561992, guid: f68c847ed67986742ba987cb1b6ad709, type: 3}

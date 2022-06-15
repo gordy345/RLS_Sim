@@ -12,7 +12,9 @@ public class IkoController : MonoBehaviour
     private Material _gridMat;
     private Color _colorGrid;
     [SerializeField]
-    private GameObject Line;
+    private GameObject LineObject;
+    [SerializeField]
+    private GameObject EdgeObject;
     [SerializeField]
     public Transform TargetsFolder;
     [SerializeField]
@@ -125,6 +127,24 @@ public class IkoController : MonoBehaviour
     [SerializeField]
     private ActionIkoCheck CheckPoint = null;
 
+    [Header("Strob control")]
+    [SerializeField]
+    private GameObject _strobContainer;
+    [SerializeField]
+    private Slider _strobSlider;
+    [SerializeField]
+    private float _strobTolerance;
+    [SerializeField]
+    private float _interferenceFadeDist;
+    [SerializeField]
+    private float _minInterferenceBrightness;
+    [SerializeField]
+    private ActionIkoCheck _strobCheckAction;
+
+    private float _ikoRadius;
+
+    private float _interferenceDistToCenter;
+
     public static IkoController Instance { get; private set; }
 
     public event UnityAction OnReset;
@@ -139,6 +159,9 @@ public class IkoController : MonoBehaviour
         _gridMat = Instantiate(Grid.material);
         Grid.material = _gridMat;
         _colorGrid = _gridMat.color;
+        _ikoRadius = ((Vector2)LineObject.transform.position - 
+            (Vector2)EdgeObject.transform.position)
+            .magnitude;
 
         BrightnessController.onValueChanged.AddListener(BrightnessChanged);
         BrightnessController.value = _defaultBrightness;
@@ -146,17 +169,19 @@ public class IkoController : MonoBehaviour
         gameObject.SetActive(true);
         CloseIko();
 
+        _strobSlider.onValueChanged.AddListener(OnStrobStartValueChange);
+
         Reset();
     }
 
     void Update()
     {
         if (!_hasStarted) return;
-        var angles = Line.transform.localEulerAngles;
+        var angles = LineObject.transform.localEulerAngles;
 
         var lastAngle = angles.z;
         angles.z += LineRotationSpeed * Time.deltaTime;
-        Line.transform.localEulerAngles = angles;
+        LineObject.transform.localEulerAngles = angles;
     }
 
     public void BrightnessChanged(float value)
@@ -186,7 +211,7 @@ public class IkoController : MonoBehaviour
         var angle = Random.Range(0, 360f);
         var pos = Quaternion.Euler(0, 0, angle) * 
             new Vector2(0, dist) + 
-            Line.transform.position;
+            LineObject.transform.position;
 
         var velAmp = Random.Range(MinTargetVel, MaxTargetVel);
         var td = TargetsDirectionSpreadAngle / 2;
@@ -195,7 +220,7 @@ public class IkoController : MonoBehaviour
             0,
             Vector2.SignedAngle(
                 Vector2.up,
-                Line.transform.position - pos
+                LineObject.transform.position - pos
             ) + Random.Range(-td, +td)
         );
 
@@ -203,7 +228,7 @@ public class IkoController : MonoBehaviour
 
         var instance = Instantiate(IkoTargetPrefab);
 
-        instance.Center = Line.transform;
+        instance.Center = LineObject.transform;
         instance.StartPos = pos;
         instance.MotionVel = vel;
 
@@ -252,6 +277,10 @@ public class IkoController : MonoBehaviour
 
         var rotation = Random.Range(0, 360f);
         instance.transform.rotation = Quaternion.Euler(0, 0, rotation);
+
+        _interferenceDistToCenter = ((Vector2)instance.transform.position -
+            (Vector2)LineObject.transform.position)
+            .magnitude;
     }
 
     public void StartTest()
@@ -270,7 +299,7 @@ public class IkoController : MonoBehaviour
         _hasStarted = false;
         if (_lastTarget != null) Destroy(_lastTarget);
         _lastTarget = null;
-        Line.transform.localEulerAngles = new Vector3(0, 0, 90);
+        LineObject.transform.localEulerAngles = new Vector3(0, 0, 90);
         StartButton.interactable = true;
         OnReset?.Invoke();
 
@@ -296,6 +325,9 @@ public class IkoController : MonoBehaviour
         }
 
         Mistakes = 0;
+        _strobSlider.value = 0;
+        PassiveInterferenceLevel = 1f;
+        _strobContainer.SetActive(false);
     }
 
     public void OnRound(int round)
@@ -441,6 +473,37 @@ public class IkoController : MonoBehaviour
     public void TestInt()
     {
         PassiveInterferenceLevel = 0.1f;
+    }
+
+    #endregion
+
+    #region strob actions
+
+    public void EnableStrobControl()
+    {
+        _strobContainer.SetActive(true);
+    }
+
+    private void OnStrobStartValueChange(float value)
+    {
+        var pos = Mathf.Lerp(0, _ikoRadius, value);
+
+        var dist = Mathf.Abs(_interferenceDistToCenter - pos);
+        var lerpVal = Mathf.Clamp01(
+            Mathf.InverseLerp(_interferenceFadeDist * _ikoRadius, 0, dist)
+        );
+        var alpha = Mathf.Lerp(1, _minInterferenceBrightness, lerpVal);
+        PassiveInterferenceLevel = alpha;
+        Debug.Log($"strob start changed: {value}, new alpha: {alpha} (lerpVal: {lerpVal})");
+    }
+
+    public void ValidateStrob()
+    {
+        if (PassiveInterferenceLevel <= _minInterferenceBrightness + _strobTolerance)
+        {
+            GameManager.Instance.AddToState(_strobCheckAction);
+        }
+        GameManager.Instance.CheckOrder();
     }
 
     #endregion

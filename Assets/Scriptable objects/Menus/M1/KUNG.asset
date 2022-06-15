@@ -10,10 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 11f212beab9de6849aa18065c4836c76, type: 3}
-  m_Name: M1
+  m_Name: KUNG
   m_EditorClassIdentifier: 
-  Name: "\u041C\u0430\u0448\u0438\u043D\u0430 1"
+  Name: "\u0412\u043D\u0443\u0442\u0440\u0438 \u041A\u0423\u041D\u0413\u0430"
   childNodes:
-  - {fileID: 11400000, guid: ba4caff4dac4275478c23c458a9edf13, type: 2}
-  - {fileID: 11400000, guid: 5caa68d31aeb01e4d89a832306bdaefb, type: 2}
+  - {fileID: 11400000, guid: 70e5cd75c90dd6f4e869ef37587e3be9, type: 2}
+  - {fileID: 11400000, guid: 96d4ac86b62b7f14992ee56981ccbfc8, type: 2}
+  - {fileID: 11400000, guid: de5372ae5ba5e52489503375ec12565a, type: 2}
   Prefab: {fileID: 0}

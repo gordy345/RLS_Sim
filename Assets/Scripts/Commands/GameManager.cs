@@ -15,6 +15,8 @@ public class GameManager : MonoBehaviour
 
     [Header("IKO")]
     public GameObject OpenIkoButton;
+    [SerializeField]
+    private IkoController _iko;
 
     [Header("Tooltip")]
     public TooltipPanel Tooltip;
@@ -67,6 +69,8 @@ public class GameManager : MonoBehaviour
     {
         Tooltip.Show("", null);
         Tooltip.Hide();
+        _iko?.gameObject.SetActive(true);
+        _iko?.CloseIko();
     }
 
     private void StartCommandScript(Command command)
@@ -102,6 +106,7 @@ public class GameManager : MonoBehaviour
         MainPanel.SetActive(true);
         MainPanel.OpenDefaultBlock();
 
+        IkoController.Instance.gameObject.SetActive(true);
         if (_currentCommand.ShowIkoButton) IkoController.Instance.OpenIko();
         else IkoController.Instance.CloseIko();
     }
@@ -145,7 +150,7 @@ public class GameManager : MonoBehaviour
         }
         actions.Clear();
         MainPanel.UpdateCurrentBlockUI(true);
-        IkoController.Instance.Reset();
+        IkoController.Instance?.Reset();
     }
 
     public void CheckOrder()
@@ -228,7 +233,7 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        if (last?.name == a.name)
+        if (last == a || last?.name == a.name)
         {
             actions.Remove(last);
             if (!a.IsInDefaultState() || !a.RemoveIfMatchingDefaultState)
