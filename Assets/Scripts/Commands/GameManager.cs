@@ -120,6 +120,7 @@ public class GameManager : MonoBehaviour
         MainPanel.SetActive(false);
         TooltipIsAllowed = true;
         HideTooltipAfterFrame();
+        IkoController.Instance?.CloseIko();
         Restart();
     }
 
@@ -139,6 +140,7 @@ public class GameManager : MonoBehaviour
         CommandSelect.SetActive(false);
         RoleSelect.SetActive(true);
         MainPanel.SetActive(false);
+        IkoController.Instance?.CloseIko();
         Restart();
     }
 
