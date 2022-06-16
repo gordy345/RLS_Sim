@@ -33,6 +33,10 @@ public class POS72 : AbstractBlock
             //Debug.Log("strob mode");
             IkoController.Instance.EnableStrobControl();
         }
+        else
+        {
+            IkoController.Instance.DisableStrobControl();
+        }
         GameManager.Instance.AddToState(_workModeAction);
     }
 }

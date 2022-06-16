@@ -477,6 +477,11 @@ public class IkoController : MonoBehaviour
         _strobContainer.SetActive(true);
     }
 
+    public void DisableStrobControl()
+    {
+        _strobContainer.SetActive(false);
+    }
+
     private void OnStrobStartValueChange(float value)
     {
         var pos = Mathf.Lerp(0, _ikoRadius, value);
