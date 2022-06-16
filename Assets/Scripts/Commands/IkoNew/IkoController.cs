@@ -115,7 +115,7 @@ public class IkoController : MonoBehaviour
         set
         {
             _currentAnswers = value;
-            if (_currentAnswers == _reqiredAnswers && Mistakes < _maxMistakes)
+            if (_currentAnswers >= _reqiredAnswers && Mistakes < _maxMistakes)
             {
                 //CloseIko();
                 GameManager.Instance.AddToState(CheckPoint);
@@ -166,7 +166,7 @@ public class IkoController : MonoBehaviour
 
         _strobSlider.onValueChanged.AddListener(OnStrobStartValueChange);
 
-        Reset();
+        Restart();
     }
 
     void Update()
@@ -256,26 +256,6 @@ public class IkoController : MonoBehaviour
         _lastTarget = instance;
     }
 
-    public void GenerateInterference()
-    {
-        var offset = _lastTarget.MotionVel;
-        offset.Normalize();
-        offset *= _passiveIntRadius;
-        var instance = Instantiate(PassiveInterferencePrefab);
-        instance.transform.position = _lastTarget.currentPos + 
-            offset + 
-            InterferenceTimeOffset * _lastTarget.MotionVel;
-        instance.transform.SetParent(InterferenceFolder, true);
-        instance.transform.localScale = Vector3.one;
-
-        var rotation = Random.Range(0, 360f);
-        instance.transform.rotation = Quaternion.Euler(0, 0, rotation);
-
-        _interferenceDistToCenter = ((Vector2)instance.transform.position -
-            (Vector2)LineObject.transform.position)
-            .magnitude;
-    }
-
     public void StartTest()
     {
         if (_hasStarted) return;
@@ -287,7 +267,7 @@ public class IkoController : MonoBehaviour
         _buttonSingleTarget.interactable = true;
     }
 
-    public void Reset()
+    public void Restart()
     {
         _hasStarted = false;
         if (_lastTarget != null) Destroy(_lastTarget);
@@ -318,9 +298,12 @@ public class IkoController : MonoBehaviour
         }
 
         Mistakes = 0;
+        Answers = 0;
         _strobSlider.value = 0;
         PassiveInterferenceLevel = 1f;
         _strobContainer.SetActive(false);
+        _interferenceDistToCenter = 0;
+        
     }
 
     public void OnRound(int round)
@@ -333,7 +316,9 @@ public class IkoController : MonoBehaviour
         if (round == 4)
         {
             GenerateInterference();
-
+        }
+        if (round == 5)
+        {
             foreach (var b in InterferenceButtons)
             {
                 b.interactable = true;
@@ -463,9 +448,24 @@ public class IkoController : MonoBehaviour
         }
     }
 
-    public void TestInt()
+    public void GenerateInterference()
     {
-        PassiveInterferenceLevel = 0.1f;
+        var offset = _lastTarget.MotionVel;
+        offset.Normalize();
+        offset *= _passiveIntRadius;
+        var instance = Instantiate(PassiveInterferencePrefab);
+        instance.transform.position = _lastTarget.currentPos +
+            offset +
+            InterferenceTimeOffset * _lastTarget.MotionVel;
+        instance.transform.SetParent(InterferenceFolder, true);
+        instance.transform.localScale = Vector3.one;
+
+        var rotation = Random.Range(0, 360f);
+        instance.transform.rotation = Quaternion.Euler(0, 0, rotation);
+
+        _interferenceDistToCenter = ((Vector2)instance.transform.position -
+            (Vector2)LineObject.transform.position)
+            .magnitude;
     }
 
     #endregion

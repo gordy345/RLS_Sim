@@ -152,7 +152,7 @@ public class GameManager : MonoBehaviour
         }
         actions.Clear();
         MainPanel.UpdateCurrentBlockUI(true);
-        IkoController.Instance?.Reset();
+        IkoController.Instance?.Restart();
     }
 
     public void CheckOrder()
