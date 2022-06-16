@@ -854,6 +854,7 @@ GameObject:
   - component: {fileID: 149995542}
   - component: {fileID: 149995544}
   - component: {fileID: 149995543}
+  - component: {fileID: 149995545}
   m_Layer: 5
   m_Name: Grid
   m_TagString: Untagged
@@ -918,6 +919,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 149995541}
   m_CullTransparentMesh: 1
+--- !u!225 &149995545
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 149995541}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &153832100
 GameObject:
   m_ObjectHideFlags: 0
@@ -5714,11 +5727,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa1a540f865d6f947a691eb53e475bc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Grid: {fileID: 149995543}
+  Grid: {fileID: 149995545}
   LineObject: {fileID: 1881485585}
   EdgeObject: {fileID: 1686678848}
   TargetsFolder: {fileID: 398878307}
-  _group: {fileID: 916559459}
+  _ikoPanel: {fileID: 916559459}
   InterferenceFolder: {fileID: 921277902}
   BrightnessController: {fileID: 1759583343}
   StartButton: {fileID: 1480371551}

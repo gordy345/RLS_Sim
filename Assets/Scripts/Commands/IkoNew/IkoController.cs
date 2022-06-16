@@ -8,9 +8,7 @@ public class IkoController : MonoBehaviour
 {
     [Header("Display Objects")]
     [SerializeField]
-    private Image Grid;
-    private Material _gridMat;
-    private Color _colorGrid;
+    private CanvasGroup Grid;
     [SerializeField]
     private GameObject LineObject;
     [SerializeField]
@@ -18,7 +16,7 @@ public class IkoController : MonoBehaviour
     [SerializeField]
     public Transform TargetsFolder;
     [SerializeField]
-    private CanvasGroup _group;
+    private CanvasGroup _ikoPanel;
     [SerializeField]
     private Transform InterferenceFolder;
 
@@ -156,9 +154,6 @@ public class IkoController : MonoBehaviour
 
     void Start()
     {
-        _gridMat = Instantiate(Grid.material);
-        Grid.material = _gridMat;
-        _colorGrid = _gridMat.color;
         _ikoRadius = ((Vector2)LineObject.transform.position - 
             (Vector2)EdgeObject.transform.position)
             .magnitude;
@@ -186,23 +181,21 @@ public class IkoController : MonoBehaviour
 
     public void BrightnessChanged(float value)
     {
-        _colorGrid.a = value;
-        _gridMat.color = _colorGrid;
-        Grid.material = _gridMat;
+        Grid.alpha = value;
     }
 
     public void OpenIko()
     {
-        _group.alpha = 1.0f;
-        _group.interactable = true;
-        _group.blocksRaycasts = true;
+        _ikoPanel.alpha = 1.0f;
+        _ikoPanel.interactable = true;
+        _ikoPanel.blocksRaycasts = true;
     }
 
     public void CloseIko()
     {
-        _group.alpha = 0.0f;
-        _group.interactable = false;
-        _group.blocksRaycasts = false;
+        _ikoPanel.alpha = 0.0f;
+        _ikoPanel.interactable = false;
+        _ikoPanel.blocksRaycasts = false;
     }
 
     public void GenerateTargets()

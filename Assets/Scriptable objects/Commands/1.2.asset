@@ -22,16 +22,13 @@ MonoBehaviour:
   Enabled_p1: 1
   CommandDescriptionPos1: 
   ActionsPos1:
-  - {fileID: 11400000, guid: 641be70fa2ce4054ab6e4a101001451f, type: 2}
-  - {fileID: 11400000, guid: 257b1b444efc8d64fa99210a2d213908, type: 2}
-  - {fileID: 11400000, guid: 8f9d863c16cb0d440854fa84767e9834, type: 2}
-  - {fileID: 11400000, guid: 8ba0565950b04ef4e91b435cb1e05294, type: 2}
-  - {fileID: 11400000, guid: 8bc6a8608b762504f8344f6086356d44, type: 2}
-  - {fileID: 11400000, guid: d92de5c5f5a86024e93dacd3e42a6da7, type: 2}
-  - {fileID: 11400000, guid: 0c0b1eba7fd005047bb737e0b1057290, type: 2}
+  - {fileID: 11400000, guid: 8301d15f9565fd74cba0549cf64b655c, type: 2}
+  - {fileID: 11400000, guid: f80a73e74d249054bb4c86b220d1dfeb, type: 2}
+  - {fileID: 11400000, guid: e03a560f1af7e014ba2a9235b47a96e8, type: 2}
   Enabled_p2: 1
   CommandDescriptionPos2: 
-  ActionsPos2: []
+  ActionsPos2:
+  - {fileID: 11400000, guid: 8301d15f9565fd74cba0549cf64b655c, type: 2}
   Enabled_p3: 0
   CommandDescriptionPos3: 
   ActionsPos3: []
