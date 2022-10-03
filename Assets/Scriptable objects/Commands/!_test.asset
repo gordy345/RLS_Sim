@@ -42,3 +42,4 @@ MonoBehaviour:
   Enabled_p5: 0
   CommandDescriptionPos5: 
   ActionsPos5: []
+  IsTestOnly: 1

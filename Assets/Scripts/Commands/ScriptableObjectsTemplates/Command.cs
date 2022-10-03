@@ -32,4 +32,6 @@ public class Command : ScriptableObject
     public bool Enabled_p5 = true;
     public string CommandDescriptionPos5;
     public Action[] ActionsPos5;
+
+    public bool IsTestOnly;
 }

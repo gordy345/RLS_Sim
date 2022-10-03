@@ -52,6 +52,9 @@ public class GameManager : MonoBehaviour
         Instance = this;
         foreach (var c in CommandList)
         {
+#if !UNITY_EDITOR
+            if (c.IsTestOnly) continue;
+#endif
             var b = Instantiate(CommandButtonPrefab);
             b.onClick.AddListener(() => StartCommandScript(c));
             b.GetComponentInChildren<Text>().text = c.CommandName;

@@ -37,7 +37,7 @@ public class TargetGroupCreator : MonoBehaviour
         {
             var target = Instantiate(_targetPrefab);
             target.transform.SetParent(transform, true);
-            var r = Random.Range(0, MaxGroupRadius);
+            var r = Random.Range(MinGroupRadius, MaxGroupRadius);
             var a = Random.Range(0, 360.0f);
             var pos = Quaternion.Euler(0, 0, a) * new Vector2(0, r);
             target.transform.localPosition = pos;
