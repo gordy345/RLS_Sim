@@ -49,15 +49,9 @@ public class IkoController : MonoBehaviour
 
     [Header("Target Prefabs")]
     [SerializeField]
-    private IkoTarget IkoTargetPrefab;
+    private IkoTarget SingleTargetPrefab;
     [SerializeField]
-    private GameObject TargetSingle;
-    [SerializeField]
-    private GameObject TargetGroup;
-    [SerializeField]
-    private GameObject TargetSingleOurs;
-    [SerializeField]
-    private GameObject TargetGroupOurs;
+    private IkoTarget GroupTargetPrefab;
 
     [Header("Interference Prefabs")]
     [SerializeField]
@@ -143,6 +137,8 @@ public class IkoController : MonoBehaviour
 
     private float _interferenceDistToCenter;
 
+    public static Vector3 IkoCenter => Instance?.LineObject.transform.position ?? Vector3.zero;
+
     public static IkoController Instance { get; private set; }
 
     public event UnityAction OnReset;
@@ -219,35 +215,26 @@ public class IkoController : MonoBehaviour
 
         var vel = angleVel * new Vector2(0, velAmp);
 
-        var instance = Instantiate(IkoTargetPrefab);
-
-        instance.Center = LineObject.transform;
-        instance.StartPos = pos;
-        instance.MotionVel = vel;
+        IkoTarget instance;
 
         var isGroup = Random.Range(0f, 10f) <= 5;
         var isOur = Random.Range(0f, 10f) <= 5;
 
-        instance.IsGroup = isGroup;
-        instance.IsOurs = isOur;
 
         if (isGroup)
         {
-            instance.TargetPrefab = TargetGroup;
-            if (isOur)
-                instance.TargetPrefabDetermined = TargetGroupOurs;
-            else
-                instance.TargetPrefabDetermined = TargetGroup;
+            instance = Instantiate(GroupTargetPrefab);
+            instance.GetComponent<TargetGroupCreator>().GenerateTargets();
         }
         else
         {
-            instance.TargetPrefab = TargetSingle;
-            if (isOur)
-                instance.TargetPrefabDetermined = TargetSingleOurs;
-            else
-                instance.TargetPrefabDetermined = TargetSingle;
+            instance = Instantiate(SingleTargetPrefab);
         }
 
+        instance.IsGroup = isGroup;
+        instance.IsOurs = isOur;
+        instance.StartPos = pos;
+        instance.MotionVel = vel;
 
         instance.transform.SetParent(TargetsFolder, false);
 
@@ -454,7 +441,7 @@ public class IkoController : MonoBehaviour
         offset.Normalize();
         offset *= _passiveIntRadius;
         var instance = Instantiate(PassiveInterferencePrefab);
-        instance.transform.position = _lastTarget.currentPos +
+        instance.transform.position = _lastTarget.CurrentPos +
             offset +
             InterferenceTimeOffset * _lastTarget.MotionVel;
         instance.transform.SetParent(InterferenceFolder, true);

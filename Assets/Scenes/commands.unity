@@ -5746,15 +5746,9 @@ MonoBehaviour:
   MinTargetLineLength: 0.1
   MaxTargetLineLength: 0.5
   _maxTargetAngleDeviation: 25
-  IkoTargetPrefab: {fileID: 2420257368016472277, guid: edc9691f5f8e37043806cdffdbd8758d,
+  SingleTargetPrefab: {fileID: 7234654111137013157, guid: 311cfe576c4c21147b00cc7d19e85bdd,
     type: 3}
-  TargetSingle: {fileID: 1330522258578565827, guid: 5eef4e5559cb1fe42a835ac083c84b69,
-    type: 3}
-  TargetGroup: {fileID: 7256687420689199963, guid: c233c42e5ac14b045a884cfc05f08752,
-    type: 3}
-  TargetSingleOurs: {fileID: 1398136040468441618, guid: b6ebf659c790c6f41975f06d9fcb89f8,
-    type: 3}
-  TargetGroupOurs: {fileID: 1498441314562151462, guid: 930e2b9c9470c0f478e54e544d76300b,
+  GroupTargetPrefab: {fileID: 6480147092442532487, guid: 2edafcd67e8b79949a4e85942bf2de5d,
     type: 3}
   PassiveInterferencePrefab: {fileID: 2762189273162876150, guid: cecdd0fd177056347bd14eb8706319bd,
     type: 3}

@@ -24,10 +24,10 @@ public class Targets : MonoBehaviour
     public void Spawn()
     {
         GameObject newTarget = Instantiate(IKOTargetPrefab, IKOTargetPrefab.transform.position, IKOTargetPrefab.transform.rotation);
-        newTarget.transform.parent = transform;
+        newTarget.transform.SetParent(transform, false);
         targets.Add(newTarget);
 
-        //IKOTarget newTargetScript = newTarget.GetComponent<IKOTarget>();
+        IKOTarget newTargetScript = newTarget.GetComponent<IKOTarget>();
 
         resultText.SetActive(false);
         SetButtonInteractable("AnswerButton", false);

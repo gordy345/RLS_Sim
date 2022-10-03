@@ -1,26 +1,34 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
-[RequireComponent(typeof(Collider2D))]
 public class IkoTarget : MonoBehaviour
 {
-    public bool IsGroup;
-    public bool IsOurs;
-
     public Vector2 MotionVel;
     public Vector2 StartPos;
-    public Transform Center;
-
-    public GameObject TargetPrefab;
-    public GameObject TargetPrefabDetermined;
-
-    private bool _isRevealed;
 
     private float _lineLen;
     private Vector2 _lineStartPos;
 
-    public Vector2 currentPos { get; private set; }
+    private bool _isOurs;
+    public bool IsOurs
+    {
+        get => _isOurs;
+        set
+        {
+            _isOurs = value;
+            foreach (var t in GetComponentsInChildren<TargetRevealer>())
+            {
+                t.IsOurs = value;
+            }
+        }
+    }
+    public bool IsGroup { get; set; }
+
+    public Vector2 CurrentPos { get; private set; }
+
+    public UnityEvent OnTrajectoryTurn = new UnityEvent();
 
     private void Start()
     {
@@ -37,45 +45,35 @@ public class IkoTarget : MonoBehaviour
         Vector2 newPos;
         newPos.x = transform.position.x;
         newPos.y = transform.position.y;
-        currentPos = newPos + MotionVel * Time.deltaTime;
-        transform.position = currentPos;
+        CurrentPos = newPos + MotionVel * Time.deltaTime;
+        transform.position = CurrentPos;
 
-        if ((currentPos - _lineStartPos).magnitude >= _lineLen)
+        if ((CurrentPos - _lineStartPos).magnitude >= _lineLen)
         {
-            _lineStartPos = currentPos;
-            var angle = Random.Range(
-                -IkoController.Instance._maxTargetAngleDeviation,
-                +IkoController.Instance._maxTargetAngleDeviation
-            );
-            MotionVel = Quaternion.Euler(0, 0, angle) * MotionVel;
+            OnTrajectoryTurn?.Invoke();
+            TurnTrajectory();
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    public void CopyOther(IkoTarget target)
     {
-        if (collision.tag != "Line") return;
-        GameObject instance = null;
-        if (!_isRevealed)
-        {
-            instance = Instantiate(TargetPrefab);
-            _isRevealed = true;
-        }
-        else
-        {
-            instance = Instantiate(TargetPrefabDetermined);
-        }
+        MotionVel = target.MotionVel;
+        StartPos = target.StartPos;
+        _lineLen = target._lineLen;
+        _lineStartPos = target._lineStartPos;
+        CurrentPos = target.CurrentPos;
 
-        instance.transform.position = transform.position;
-        instance.transform.rotation = Quaternion.Euler(
-            0, 
-            0, 
-            Vector2.SignedAngle(
-                Vector2.up, 
-                Center.position - transform.position
-            )
+        IsOurs = target.IsOurs;
+        IsGroup = target.IsGroup;
+    }
+
+    public void TurnTrajectory()
+    {
+        _lineStartPos = CurrentPos;
+        var angle = Random.Range(
+            -IkoController.Instance._maxTargetAngleDeviation,
+            +IkoController.Instance._maxTargetAngleDeviation
         );
-        instance.transform.SetParent(IkoController.Instance.TargetsFolder, true);
-        instance.transform.localScale = Vector3.one;
-
+        MotionVel = Quaternion.Euler(0, 0, angle) * MotionVel;
     }
 }
