@@ -55,7 +55,7 @@ public class SelectManyTestBlock : AbstractBlock
             foreach (var instance in btns)
             {
                 var textObj = instance.GetComponentInChildren<Text>();
-                var height = textObj.preferredHeight + btnTextPadding;
+                var height = textObj.preferredHeight + btnTextPadding + 1f;
 
                 (instance.transform as RectTransform).SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, height);
                 btnsHeight += height + ButtonsPadding;

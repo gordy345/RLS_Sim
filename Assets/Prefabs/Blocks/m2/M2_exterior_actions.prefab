@@ -400,7 +400,7 @@ MonoBehaviour:
   _buttonsHolder: {fileID: 1941270483778219396}
   ButtonPrefab: {fileID: 5457588512452081513, guid: 02357976a2754e443842ba9f1b1aa034,
     type: 3}
-  ButtonsPadding: 10
+  ButtonsPadding: 12
 --- !u!1 &3516591271797737867
 GameObject:
   m_ObjectHideFlags: 0
