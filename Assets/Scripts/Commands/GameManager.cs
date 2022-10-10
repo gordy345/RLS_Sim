@@ -50,6 +50,11 @@ public class GameManager : MonoBehaviour
     {
         Instance = this;
 
+        CommandSelect.SetActive(true);
+        RoleSelect.SetActive(false);
+        MainPanel.SetActive(false);
+        TooltipIsAllowed = true;
+
         var texts = new List<Text>();
         foreach (var c in CommandList)
         {
@@ -78,11 +83,6 @@ public class GameManager : MonoBehaviour
                 t.text = text;
             }
         }
-
-        CommandSelect.SetActive(true);
-        RoleSelect.SetActive(false);
-        MainPanel.SetActive(false);
-        TooltipIsAllowed = true;
 
         Tooltip.Show("", null);
         Tooltip.Hide();

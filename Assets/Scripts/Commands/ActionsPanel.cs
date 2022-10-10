@@ -52,6 +52,15 @@ public class ActionsPanel : MonoBehaviour
         }
         b.transform.SetParent(parent, false);
         b.onClick.AddListener(() => OpenMenus(btnLayer + 1, item));
+
+        void select()
+        {
+            foreach (var o in parent.GetComponentsInChildren<Button>())
+                o.interactable = true;
+            b.interactable = false;
+        }
+        b.onClick.AddListener(select);
+
         b.GetComponentInChildren<Text>().text = item.Name;
     }
 
@@ -63,6 +72,9 @@ public class ActionsPanel : MonoBehaviour
         }
         else
         {
+            foreach (var o in Panel1.GetComponentsInChildren<Button>())
+                o.interactable = true;
+
             Panel1.gameObject.SetActive(true);
             Panel2.gameObject.SetActive(false);
             Panel3.gameObject.SetActive(false);
