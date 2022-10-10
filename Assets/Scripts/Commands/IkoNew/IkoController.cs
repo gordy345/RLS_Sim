@@ -25,10 +25,16 @@ public class IkoController : MonoBehaviour
     private Scrollbar BrightnessController;
     [SerializeField]
     private Button StartButton;
+    [SerializeField]
+    private Button Rpm6_Btn;
+    [SerializeField]
+    private Button Rpm12_Btn;
 
     [Header("Settings")]
     [SerializeField]
-    private float LineRotationSpeed;
+    private float LineRotationSpeed_6rpm = -36f;
+    [SerializeField]
+    private float LineRotationSpeed_12rpm = -72f;
     [SerializeField]
     private float MaxDistanceToTarget;
     [SerializeField]
@@ -42,6 +48,54 @@ public class IkoController : MonoBehaviour
     public float TargetsDissolveTime;
     [SerializeField]
     private float InterferenceTimeOffset;
+
+    #region Work mode
+
+    [System.Serializable]
+    public enum IkoWorkMode
+    {
+        Rpm6,
+        Rpm12,
+    }
+
+    private IkoWorkMode _mode;
+    public IkoWorkMode WorkMode 
+    {
+        get => _mode;
+        set
+        {
+            _mode = value;
+            switch (value)
+            {
+                case IkoWorkMode.Rpm12:
+                    Rpm12_Btn.interactable = false;
+                    Rpm6_Btn.interactable = true;
+                    break;
+                case IkoWorkMode.Rpm6:
+                default:
+                    Rpm12_Btn.interactable = true;
+                    Rpm6_Btn.interactable = false;
+                    break;
+            }
+        }
+    }
+
+    private float LineRotationSpeed
+    {
+        get
+        {
+            switch (WorkMode)
+            {
+                case IkoWorkMode.Rpm12:
+                    return LineRotationSpeed_12rpm;
+                case IkoWorkMode.Rpm6:
+                default:
+                    return LineRotationSpeed_6rpm;
+            }
+        }
+    }
+
+    #endregion
 
     public float MinTargetLineLength;
     public float MaxTargetLineLength;
@@ -150,6 +204,7 @@ public class IkoController : MonoBehaviour
 
     void Start()
     {
+        WorkMode = IkoWorkMode.Rpm6;
         _ikoRadius = ((Vector2)LineObject.transform.position - 
             (Vector2)EdgeObject.transform.position)
             .magnitude;
@@ -161,6 +216,9 @@ public class IkoController : MonoBehaviour
         CloseIko();
 
         _strobSlider.onValueChanged.AddListener(OnStrobStartValueChange);
+
+        Rpm6_Btn.onClick.AddListener(() => WorkMode = IkoWorkMode.Rpm6);
+        Rpm12_Btn.onClick.AddListener(() => WorkMode = IkoWorkMode.Rpm12);
 
         Restart();
     }
@@ -279,9 +337,18 @@ public class IkoController : MonoBehaviour
             Destroy(obj.gameObject);
         }
 
+        void DestroyRecursive(Transform t)
+        {
+            foreach (Transform obj in t)
+            {
+                DestroyRecursive(obj);
+            }
+            Destroy(t.gameObject);
+        }
+
         foreach (Transform obj in TargetsFolder)
         {
-            Destroy(obj.gameObject);
+            DestroyRecursive(obj);
         }
 
         Mistakes = 0;
@@ -295,21 +362,22 @@ public class IkoController : MonoBehaviour
 
     public void OnRound(int round)
     {
-        if (round == 3)
-        {
-            _buttonOthersTarget.interactable = true;
-            _buttonOursTarget.interactable = true;
-        }
-        if (round == 4)
-        {
-            GenerateInterference();
-        }
-        if (round == 5)
-        {
-            foreach (var b in InterferenceButtons)
-            {
-                b.interactable = true;
-            }
+        switch(round) {
+            case 3:
+                _buttonOthersTarget.interactable = true;
+                _buttonOursTarget.interactable = true;
+                break;
+            case 4:
+                GenerateInterference();
+                break;
+            case 5:
+                foreach (var b in InterferenceButtons)
+                {
+                    b.interactable = true;
+                }
+                break;
+            default:
+                break;
         }
     }
 
@@ -492,6 +560,7 @@ public class IkoController : MonoBehaviour
     }
 
     #endregion
+
 }
 
 [System.Serializable]

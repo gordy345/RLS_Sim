@@ -44,6 +44,7 @@ public class GameManager : MonoBehaviour
     private Command _currentCommand;
     private int _personRole;
     private List<Action> actions = new List<Action>();
+    private bool _testPassed;
 
     public static GameManager Instance { get; private set; }
 
@@ -116,7 +117,7 @@ public class GameManager : MonoBehaviour
 
     public async void BackToCommandSelect()
     {
-        if (_personRole != 0 && !await ShureCheck.CheckIfShure()) return;
+        if (_personRole != 0 && !_testPassed && !await ShureCheck.CheckIfShure()) return;
         _currentCommand = null;
         _personRole = 0;
         CommandSelect.SetActive(true);
@@ -158,6 +159,7 @@ public class GameManager : MonoBehaviour
         actions.Clear();
         MainPanel.UpdateCurrentBlockUI(true);
         IkoController.Instance?.Restart();
+        _testPassed = false;
     }
 
     public void CheckOrder()
@@ -214,6 +216,7 @@ public class GameManager : MonoBehaviour
     {
         CheckResultPanel.gameObject.SetActive(true);
         CheckResultPanel.ShowPassMessage();
+        _testPassed = true;
     }
 
     public void AddToState(Action a)

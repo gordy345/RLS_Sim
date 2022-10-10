@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(IkoTarget))]
+//[RequireComponent(typeof(IkoTarget))]
 public class TargetGroupCreator : MonoBehaviour
 {
     [Header("Targets generation")]
