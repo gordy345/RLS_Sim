@@ -15,6 +15,9 @@ MonoBehaviour:
   CommandName: "\u0420\u0430\u0431\u043E\u0442\u0430 \u0440\u0430\u0441\u0447\u0435\u0442\u0430
     \u043F\u043E \u0440\u0430\u0437\u0432\u0435\u0440\u0442\u044B\u0432\u0430\u043D\u0438\u044E
     \u0441\u0442\u0430\u043D\u0446\u0438\u0438"
+  AppendixNumDescription: "\u041F\u0440\u0438\u043B\u043E\u0436\u0435\u043D\u0438\u0435
+    1"
+  ShowIkoButton: 0
   Enabled_p1: 1
   CommandDescriptionPos1: 
   ActionsPos1:
@@ -76,3 +79,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3ebb2228ad16423488dc4b056986d703, type: 2}
   - {fileID: 11400000, guid: 25372b91760283c4aa46ae15c5bbc29a, type: 2}
   - {fileID: 11400000, guid: 282f25eeea0e2ad4bb6a9fb612640230, type: 2}
+  IsTestOnly: 0

@@ -38,8 +38,6 @@ public class GameManager : MonoBehaviour
     public float RoleButtonWidth;
     public float RoleButtonsSpacing;
 
-
-
     // state
     private Command _currentCommand;
     private int _personRole;
@@ -48,9 +46,11 @@ public class GameManager : MonoBehaviour
 
     public static GameManager Instance { get; private set; }
 
-    void Awake()
+    void Start()
     {
         Instance = this;
+
+        var texts = new List<Text>();
         foreach (var c in CommandList)
         {
 #if !UNITY_EDITOR
@@ -58,19 +58,32 @@ public class GameManager : MonoBehaviour
 #endif
             var b = Instantiate(CommandButtonPrefab);
             b.onClick.AddListener(() => StartCommandScript(c));
-            b.GetComponentInChildren<Text>().text = c.CommandName;
+            var t = b.GetComponentsInChildren<Text>();
+            t[0].text = c.CommandName;
+            t[1].text = c.AppendixNumDescription;
             var trigger = b.GetComponent<TooltipTrigger>();
             trigger.text = c.CommandName;
             b.transform.SetParent(CommandButtonsUI.transform, false);
+
+            texts.Add(t[0]);
         }
+        Canvas.ForceUpdateCanvases();
+
+        foreach(var t in texts)
+        {
+            if (t.cachedTextGenerator.lineCount > 1)
+            {
+                var textEnd = t.cachedTextGenerator.lines[1].startCharIdx;
+                var text = t.text.Substring(0, textEnd - 3) + "...";
+                t.text = text;
+            }
+        }
+
         CommandSelect.SetActive(true);
         RoleSelect.SetActive(false);
         MainPanel.SetActive(false);
         TooltipIsAllowed = true;
-    }
 
-    private void Start()
-    {
         Tooltip.Show("", null);
         Tooltip.Hide();
         _iko?.gameObject.SetActive(true);

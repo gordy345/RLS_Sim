@@ -6,6 +6,7 @@ using UnityEngine;
 public class Command : ScriptableObject
 {
     public string CommandName;
+    public string AppendixNumDescription;
     public bool ShowIkoButton;
 
     [Header("Pos 1")]
