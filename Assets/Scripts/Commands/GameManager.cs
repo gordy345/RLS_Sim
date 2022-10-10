@@ -55,7 +55,7 @@ public class GameManager : MonoBehaviour
         MainPanel.SetActive(false);
         TooltipIsAllowed = true;
 
-        var texts = new List<Text>();
+        var texts = new List<(Text, string)>();
         foreach (var c in CommandList)
         {
 #if !UNITY_EDITOR
@@ -70,18 +70,25 @@ public class GameManager : MonoBehaviour
             trigger.text = c.CommandName;
             b.transform.SetParent(CommandButtonsUI.transform, false);
 
-            texts.Add(t[0]);
+            texts.Add((t[0], c.CommandName));
         }
         Canvas.ForceUpdateCanvases();
 
-        foreach(var t in texts)
+        foreach(var (t, sourceText) in texts)
         {
-            if (t.cachedTextGenerator.lineCount > 1)
+            void refit()
             {
-                var textEnd = t.cachedTextGenerator.lines[1].startCharIdx;
-                var text = t.text.Substring(0, textEnd - 3) + "...";
-                t.text = text;
+                t.text = sourceText;
+                Canvas.ForceUpdateCanvases();
+                if (t.cachedTextGenerator.lineCount > 1)
+                {
+                    var textEnd = t.cachedTextGenerator.lines[1].startCharIdx;
+                    var text = sourceText.Substring(0, Mathf.Max(textEnd - 3, 0)) + "...";
+                    t.text = text;
+                }
             }
+            refit();
+            t.GetComponent<UIResizeListener>().OnResized.AddListener(refit);
         }
 
         Tooltip.Show("", null);
