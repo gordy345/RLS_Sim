@@ -114,8 +114,9 @@ public class GameManager : MonoBehaviour
         else IkoController.Instance.CloseIko();
     }
 
-    public void BackToCommandSelect()
+    public async void BackToCommandSelect()
     {
+        if (_personRole != 0 && !await ShureCheck.CheckIfShure()) return;
         _currentCommand = null;
         _personRole = 0;
         CommandSelect.SetActive(true);
@@ -137,8 +138,9 @@ public class GameManager : MonoBehaviour
         StartCoroutine(c());
     }
 
-    public void BackToRoleSelect()
+    public async void BackToRoleSelect()
     {
+        if (!await ShureCheck.CheckIfShure()) return;
         _personRole = 0;
         CommandSelect.SetActive(false);
         RoleSelect.SetActive(true);

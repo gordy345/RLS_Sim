@@ -34,6 +34,7 @@ public class ActionsPanel : MonoBehaviour
         UpdateCurrentBlock();
         CloseMenus();
         RerenderPanel(Panel1, Panel1Items, 1);
+        RaycastTarget.GetComponent<Button>().onClick.AddListener(ToggleMenus);
     }
 
     public void SetActive(bool state) => gameObject.SetActive(state);
