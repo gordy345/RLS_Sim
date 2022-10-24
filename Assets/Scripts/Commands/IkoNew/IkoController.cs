@@ -179,6 +179,7 @@ public class IkoController : MonoBehaviour
     [SerializeField]
     private Slider _strobSlider;
     [SerializeField]
+    [Range(0,1)]
     private float _strobTolerance;
     [SerializeField]
     private float _interferenceFadeDist;
@@ -321,6 +322,8 @@ public class IkoController : MonoBehaviour
         LineObject.transform.localEulerAngles = new Vector3(0, 0, 90);
         StartButton.interactable = true;
         OnReset?.Invoke();
+
+        WorkMode = IkoWorkMode.Rpm6;
 
         ResetButtonsColors();
         _buttonGroupTarget.interactable = false;
@@ -548,16 +551,14 @@ public class IkoController : MonoBehaviour
         );
         var alpha = Mathf.Lerp(1, _minInterferenceBrightness, lerpVal);
         PassiveInterferenceLevel = alpha;
-        //Debug.Log($"strob start changed: {value}, new alpha: {alpha} (lerpVal: {lerpVal})");
-    }
 
-    public void ValidateStrob(float _)
-    {
-        if (!_isStrobValid && PassiveInterferenceLevel <= _minInterferenceBrightness + _strobTolerance)
+
+        if (!_isStrobValid && (alpha <= _minInterferenceBrightness + _strobTolerance))
         {
             _isStrobValid = true;
             GameManager.Instance.AddToState(_strobCheckAction);
-        } else if (_isStrobValid)
+        }
+        else if (_isStrobValid && (alpha > _minInterferenceBrightness + _strobTolerance))
         {
             _isStrobValid = false;
             GameManager.Instance.RemoveFromState(_strobCheckAction);

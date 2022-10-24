@@ -43,13 +43,20 @@ public class GameManager : MonoBehaviour
     private int _personRole;
     private List<Action> actions = new List<Action>();
     private bool _testPassed;
+    private bool _doesContainInternalActions = false;
+
+    public UnityEvent Tips_OpenIkoCalled = new UnityEvent();
+    public UnityEvent Tips_CloseIkoCalled = new UnityEvent();
 
     public static GameManager Instance { get; private set; }
 
-    void Start()
+    private void Awake()
     {
         Instance = this;
+    }
 
+    private void Start()
+    {
         CommandSelect.SetActive(true);
         RoleSelect.SetActive(false);
         MainPanel.SetActive(false);
@@ -130,6 +137,14 @@ public class GameManager : MonoBehaviour
         MainPanel.SetActive(true);
         MainPanel.OpenDefaultBlock();
 
+        var actions = GetCurrentRoleActions();
+        _doesContainInternalActions = actions.Any(a => a is InternalAction);
+        if (_doesContainInternalActions)
+        {
+            if (actions[0] is InternalAction a) a.DispatchAction();
+        }
+
+
         IkoController.Instance.gameObject.SetActive(true);
         if (_currentCommand.ShowIkoButton) IkoController.Instance.OpenIko();
         else IkoController.Instance.CloseIko();
@@ -184,19 +199,11 @@ public class GameManager : MonoBehaviour
 
     public void CheckOrder()
     {
-        Action[] req;
-        switch (_personRole)
-        {
-            case 1: req = _currentCommand.ActionsPos1; break;
-            case 2: req = _currentCommand.ActionsPos2; break;
-            case 3: req = _currentCommand.ActionsPos3; break;
-            case 4: req = _currentCommand.ActionsPos4; break;
-            case 5: req = _currentCommand.ActionsPos5; break;
-            default: return;
-        }
+        var req = GetCurrentRoleActions().Where(a => !(a is InternalAction)).ToArray();
 
         if (actions.Count != req.Length)
         {
+            Debug.Log("Fail on count");
             FailCheck();
             return;
         }
@@ -210,6 +217,7 @@ public class GameManager : MonoBehaviour
                 a.GetInstanceID() != r.GetInstanceID()
                 )
             {
+                Debug.Log("Fail on action type");
                 FailCheck();
                 return;
             }
@@ -220,6 +228,7 @@ public class GameManager : MonoBehaviour
 
         if (actions.Any(a => !a.IsInRequiredState()))
         {
+            Debug.Log("Fail on req state");
             FailCheck();
             return;
         }
@@ -241,6 +250,17 @@ public class GameManager : MonoBehaviour
 
     public void AddToState(Action a)
     {
+        if (_doesContainInternalActions)
+        {
+            var req = GetCurrentRoleActions();
+            var i = req.IndexOf(a);
+            if (i + 1 < req.Count)
+            {
+                if (req[i + 1] is InternalAction internalAction)
+                    internalAction.DispatchAction();
+            }
+        }
+
         var last = actions.LastOrDefault();
         if (a.isUnordored)
         {
@@ -278,5 +298,21 @@ public class GameManager : MonoBehaviour
     public void RemoveFromState(Action a)
     {
         actions.Remove(a);
+    }
+
+    private List<Action> GetCurrentRoleActions()
+    {
+        if (_currentCommand == null) return null;
+        Action[] req;
+        switch (_personRole)
+        {
+            case 1: req = _currentCommand.ActionsPos1; break;
+            case 2: req = _currentCommand.ActionsPos2; break;
+            case 3: req = _currentCommand.ActionsPos3; break;
+            case 4: req = _currentCommand.ActionsPos4; break;
+            case 5: req = _currentCommand.ActionsPos5; break;
+            default: return null;
+        }
+        return req.ToList();
     }
 }
