@@ -274,4 +274,9 @@ public class GameManager : MonoBehaviour
             actions.Add(a);
         }
     }
+    
+    public void RemoveFromState(Action a)
+    {
+        actions.Remove(a);
+    }
 }

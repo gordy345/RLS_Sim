@@ -188,8 +188,9 @@ public class IkoController : MonoBehaviour
     private ActionIkoCheck _strobCheckAction;
 
     private float _ikoRadius;
-
     private float _interferenceDistToCenter;
+
+    private bool _isStrobValid = false;
 
     public static Vector3 IkoCenter => Instance?.LineObject.transform.position ?? Vector3.zero;
 
@@ -550,13 +551,17 @@ public class IkoController : MonoBehaviour
         //Debug.Log($"strob start changed: {value}, new alpha: {alpha} (lerpVal: {lerpVal})");
     }
 
-    public void ValidateStrob()
+    public void ValidateStrob(float _)
     {
-        if (PassiveInterferenceLevel <= _minInterferenceBrightness + _strobTolerance)
+        if (!_isStrobValid && PassiveInterferenceLevel <= _minInterferenceBrightness + _strobTolerance)
         {
+            _isStrobValid = true;
             GameManager.Instance.AddToState(_strobCheckAction);
+        } else if (_isStrobValid)
+        {
+            _isStrobValid = false;
+            GameManager.Instance.RemoveFromState(_strobCheckAction);
         }
-        GameManager.Instance.CheckOrder();
     }
 
     #endregion

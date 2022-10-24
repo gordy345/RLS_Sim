@@ -8,7 +8,6 @@ public class UIResizeListener : MonoBehaviour
     public UnityEvent OnResized;
     private void OnRectTransformDimensionsChange()
     {
-        Debug.Log("resize");
         OnResized?.Invoke();
     }
 }
