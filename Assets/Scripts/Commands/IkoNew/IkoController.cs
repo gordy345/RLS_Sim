@@ -127,6 +127,8 @@ public class IkoController : MonoBehaviour
 
     [Header("Button Colors")]
     [SerializeField]
+    private Color _colorDisabledÑhecked;
+    [SerializeField]
     private Color _colorDisabledUnchecked;
     [SerializeField]
     private Color _colorDisabledCheckedValid;
@@ -155,18 +157,81 @@ public class IkoController : MonoBehaviour
             }
         }
     }
+
     private int _currentAnswers = 0;
     private int _reqiredAnswers = 3;
+    private InterferenceType _interferenceGenerated = InterferenceType.None;
+
+    private bool? _isGroupAnswer = null;
+    private bool? _isOursAnswer = null;
+    private InterferenceType _interferenceAnswer = InterferenceType.None;
+
     private int Answers
     {
         get => _currentAnswers;
         set
         {
             _currentAnswers = value;
-            if (_currentAnswers >= _reqiredAnswers && Mistakes < _maxMistakes)
+            if (_currentAnswers >= _reqiredAnswers)
             {
-                //CloseIko();
-                GameManager.Instance.AddToState(CheckPoint);
+                // group-single
+                var cols_g = _buttonGroupTarget.colors;
+                var cols_s = _buttonSingleTarget.colors;
+                if (_isGroupAnswer.Value)
+                {
+                    cols_g.disabledColor = _lastTarget.IsGroup ?
+                        _colorDisabledCheckedValid :
+                        _colorDisabledCheckedInvalid;
+                    cols_s.disabledColor = _colorDisabledUnchecked;
+                }
+                else
+                {
+                    cols_g.disabledColor = _colorDisabledUnchecked;
+                    cols_s.disabledColor = !_lastTarget.IsGroup ?
+                        _colorDisabledCheckedValid :
+                        _colorDisabledCheckedInvalid;
+                }
+
+                _buttonGroupTarget.colors = cols_g;
+                _buttonSingleTarget.colors = cols_s;
+
+                // ours-others
+                var cols_o = _buttonOursTarget.colors;
+                var cols_t = _buttonOthersTarget.colors;
+                if (_isOursAnswer.Value)
+                {
+                    cols_o.disabledColor = _lastTarget.IsOurs ?
+                        _colorDisabledCheckedValid :
+                        _colorDisabledCheckedInvalid;
+                    cols_t.disabledColor = _colorDisabledUnchecked;
+                }
+                else
+                {
+                    cols_o.disabledColor = _colorDisabledUnchecked;
+                    cols_t.disabledColor = !_lastTarget.IsOurs ?
+                        _colorDisabledCheckedValid :
+                        _colorDisabledCheckedInvalid;
+                }
+
+                // interference type
+                var index = (int)_interferenceAnswer - 1;
+                var selected = InterferenceButtons[index];
+
+                var col_sel = selected.colors;
+
+                if (_interferenceAnswer == _interferenceGenerated)
+                    col_sel.disabledColor = _colorDisabledCheckedValid;
+                else
+                    col_sel.disabledColor = _colorDisabledCheckedInvalid;
+
+                selected.colors = col_sel;
+
+
+                _buttonOursTarget.colors = cols_o;
+                _buttonOthersTarget.colors = cols_t;
+
+                if (Mistakes < _maxMistakes)
+                    GameManager.Instance.AddToState(CheckPoint);
             }
         }
     }
@@ -362,6 +427,10 @@ public class IkoController : MonoBehaviour
         _strobContainer.SetActive(false);
         _interferenceDistToCenter = 0;
         
+        _isGroupAnswer = null;
+        _isOursAnswer = null;
+        _interferenceAnswer = InterferenceType.None;
+        _interferenceGenerated = InterferenceType.None;
     }
 
     public void OnRound(int round)
@@ -389,7 +458,6 @@ public class IkoController : MonoBehaviour
 
     public void Test_GroupSingle(bool isGroup)
     {
-        //Debug.Log($"is correct answer: {_lastTarget.IsGroup == isGroup}");
         _buttonSingleTarget.interactable = false;
         _buttonGroupTarget.interactable = false;
 
@@ -397,23 +465,21 @@ public class IkoController : MonoBehaviour
         var cols_s = _buttonSingleTarget.colors;
         if (isGroup)
         {
-            cols_g.disabledColor = _lastTarget.IsGroup ?
-                _colorDisabledCheckedValid :
-                _colorDisabledCheckedInvalid;
+            cols_g.disabledColor = _colorDisabledÑhecked;
             cols_s.disabledColor = _colorDisabledUnchecked;
         }
         else
         {
             cols_g.disabledColor = _colorDisabledUnchecked;
-            cols_s.disabledColor = !_lastTarget.IsGroup ?
-                _colorDisabledCheckedValid :
-                _colorDisabledCheckedInvalid;
+            cols_s.disabledColor = _colorDisabledÑhecked;
         }
 
         if (isGroup != _lastTarget.IsGroup) Mistakes++;
 
         _buttonGroupTarget.colors = cols_g;
         _buttonSingleTarget.colors = cols_s;
+
+        _isGroupAnswer = isGroup;
         Answers++;
     }
 
@@ -427,23 +493,21 @@ public class IkoController : MonoBehaviour
         var cols_t = _buttonOthersTarget.colors;
         if (isOurs)
         {
-            cols_o.disabledColor = _lastTarget.IsOurs?
-                _colorDisabledCheckedValid :
-                _colorDisabledCheckedInvalid;
+            cols_o.disabledColor = _colorDisabledÑhecked;
             cols_t.disabledColor = _colorDisabledUnchecked;
         }
         else
         {
             cols_o.disabledColor = _colorDisabledUnchecked;
-            cols_t.disabledColor = !_lastTarget.IsOurs ?
-                _colorDisabledCheckedValid :
-                _colorDisabledCheckedInvalid;
+            cols_t.disabledColor = _colorDisabledÑhecked;
         }
 
         if (isOurs != _lastTarget.IsOurs) Mistakes++;
 
         _buttonOursTarget.colors = cols_o;
         _buttonOthersTarget.colors = cols_t;
+
+        _isOursAnswer = isOurs;
         Answers++;
     }
 
@@ -456,12 +520,7 @@ public class IkoController : MonoBehaviour
         var col_sel = selected.colors;
         var col_notSel = selected.colors;
 
-        const InterferenceType generated = InterferenceType.Passive;
-        if ((InterferenceType)interferenceType == generated)
-            col_sel.disabledColor = _colorDisabledCheckedValid;
-        else
-            col_sel.disabledColor = _colorDisabledCheckedInvalid;
-
+        col_sel.disabledColor = _colorDisabledÑhecked;
         col_notSel.disabledColor = _colorDisabledUnchecked;
 
         foreach (var b in InterferenceButtons)
@@ -471,6 +530,9 @@ public class IkoController : MonoBehaviour
         }
         selected.colors = col_sel;
 
+        _interferenceAnswer = (InterferenceType)interferenceType;
+        if (_interferenceAnswer != _interferenceGenerated)
+            Mistakes++;
         Answers++;
     }
 
@@ -509,6 +571,8 @@ public class IkoController : MonoBehaviour
 
     public void GenerateInterference()
     {
+        // todo: add different types
+        _interferenceGenerated = InterferenceType.Passive;
         var offset = _lastTarget.MotionVel;
         offset.Normalize();
         offset *= _passiveIntRadius;
