@@ -14,20 +14,21 @@ public class TipOpenCloseIko : MonoBehaviour
     private void Start()
     {
         canvas = GetComponent<CanvasGroup>();
-        _relatedButton.onClick.AddListener(OnClicked);
+        _relatedButton.onClick.AddListener(Close);
         switch (_tipType)
         {
             case TipType.Close:
-                GameManager.Instance.Tips_CloseIkoCalled.AddListener(OnInvoked);
+                GameManager.Instance.Tips_CloseIkoCalled.AddListener(Open);
                 break;
             case TipType.Open:
-                GameManager.Instance.Tips_OpenIkoCalled.AddListener(OnInvoked);
+                GameManager.Instance.Tips_OpenIkoCalled.AddListener(Open);
                 break;
         }
+        GameManager.Instance.OnReset.AddListener(Close);
         canvas.alpha = 0;
     }
 
-    private void OnInvoked()
+    private void Open()
     {
         IEnumerator delay()
         {
@@ -37,7 +38,7 @@ public class TipOpenCloseIko : MonoBehaviour
         StartCoroutine(delay());
     }
 
-    private void OnClicked()
+    private void Close()
     {
         canvas.alpha = 0;
     }

@@ -48,6 +48,8 @@ public class GameManager : MonoBehaviour
     public UnityEvent Tips_OpenIkoCalled = new UnityEvent();
     public UnityEvent Tips_CloseIkoCalled = new UnityEvent();
 
+    public UnityEvent OnReset = new UnityEvent();
+
     public static GameManager Instance { get; private set; }
 
     private void Awake()
@@ -195,6 +197,7 @@ public class GameManager : MonoBehaviour
         MainPanel.UpdateCurrentBlockUI(true);
         IkoController.Instance?.Restart();
         _testPassed = false;
+        OnReset.Invoke();
     }
 
     public void CheckOrder()
