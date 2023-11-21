@@ -19,6 +19,7 @@ public class InerferenceTarget : MonoBehaviour
         {
             case InterferenceType.Passive:
             case InterferenceType.LocalObjects:
+            case InterferenceType.NonlinearImpulse:
                 {
                     IkoController.Instance.OnPassiveIntChange += ChangeBrightness;
                     break;
@@ -31,7 +32,7 @@ public class InerferenceTarget : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (_triggered) return;
+        // if (_triggered) return;
         if (collision.tag != "Line") return;
         _triggered = true;
         _instance = Instantiate(_targetPrefab);

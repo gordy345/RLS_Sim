@@ -10,6 +10,8 @@ public class DissolvingImage : MonoBehaviour
     private float _creationTime;
     [SerializeField]
     private float _minAlpha;
+    [SerializeField]
+    private bool _isTarget;
 
     void Start()
     {
@@ -24,8 +26,12 @@ public class DissolvingImage : MonoBehaviour
         //    return;
         //}
         if (_canvas.alpha <= _minAlpha) return;
+        float dissolveTime = IkoController.Instance.TargetsDissolveTime;
+        if (!_isTarget) {
+            dissolveTime = IkoController.Instance.InterferenceDissolveTime;
+        }
         _canvas.alpha = Mathf.InverseLerp(
-            _creationTime + IkoController.Instance.TargetsDissolveTime,
+            _creationTime + dissolveTime,
             _creationTime,
             Time.realtimeSinceStartup
         );

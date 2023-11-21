@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1139014184667484430}
   - component: {fileID: 2952891853326629560}
+  - component: {fileID: -4256205082264009885}
   m_Layer: 5
   m_Name: PassiveInterference
   m_TagString: Untagged
@@ -402,6 +403,21 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &-4256205082264009885
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2762189273162876150}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12862f23849e4ab4281c495296362e64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _canvas: {fileID: 2952891853326629560}
+  _minAlpha: 0.12
+  _isTarget: 0
 --- !u!1001 &14873481888657911
 PrefabInstance:
   m_ObjectHideFlags: 0

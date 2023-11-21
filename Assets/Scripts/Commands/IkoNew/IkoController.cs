@@ -47,6 +47,8 @@ public class IkoController : MonoBehaviour
     private float TargetsDirectionSpreadAngle;
     public float TargetsDissolveTime;
     [SerializeField]
+    public float InterferenceDissolveTime;
+    [SerializeField]
     private float InterferenceTimeOffset;
 
     #region Work mode
@@ -59,7 +61,7 @@ public class IkoController : MonoBehaviour
     }
 
     private IkoWorkMode _mode;
-    public IkoWorkMode WorkMode 
+    public IkoWorkMode WorkMode
     {
         get => _mode;
         set
@@ -111,23 +113,31 @@ public class IkoController : MonoBehaviour
     [SerializeField]
     private GameObject PassiveInterferencePrefab;
     [SerializeField]
+    private GameObject NipInterferencePrefab;
+    [SerializeField]
     private float _passiveIntRadius;
 
     [Header("Test buttons")]
     [SerializeField]
-    private Button _buttonSingleTarget;
+    private List<Button> singleTargetButtons;
     [SerializeField]
-    private Button _buttonGroupTarget;
+    private List<Button> groupTargetButtons;
     [SerializeField]
-    private Button _buttonOursTarget;
+    private List<Button> oursTargetButtons;
     [SerializeField]
-    private Button _buttonOthersTarget;
+    private List<Button> othersTargetButtons;
     [SerializeField]
-    private List<Button> InterferenceButtons;
+    private List<Button> InterferenceButtons1;
+    [SerializeField]
+    private List<Button> InterferenceButtons2;
+    [SerializeField]
+    private List<Button> InterferenceButtons3;
+    [SerializeField]
+    private List<Button> InterferenceButtons4;
 
     [Header("Button Colors")]
     [SerializeField]
-    private Color _colorDisabled—hecked;
+    private Color _colorDisabledChecked;
     [SerializeField]
     private Color _colorDisabledUnchecked;
     [SerializeField]
@@ -137,7 +147,8 @@ public class IkoController : MonoBehaviour
 
 
     private const float _defaultBrightness = 0.5f;
-    private IkoTarget _lastTarget;
+    private List<IkoTarget> targets = new List<IkoTarget>();
+    private float[] interferencesDistToCenter = new float[4];
     private bool _hasStarted;
 
     [Header("Mistakes Check")]
@@ -159,12 +170,14 @@ public class IkoController : MonoBehaviour
     }
 
     private int _currentAnswers = 0;
-    private int _reqiredAnswers = 3;
-    private InterferenceType _interferenceGenerated = InterferenceType.None;
+    private int _reqiredAnswers = 12;
 
-    private bool? _isGroupAnswer = null;
-    private bool? _isOursAnswer = null;
-    private InterferenceType _interferenceAnswer = InterferenceType.None;
+
+    List<bool?> isGroupAnswers = new List<bool?>();
+    List<bool?> isOursAnswers = new List<bool?>();
+    List<InterferenceType> interferenceAnswers = new List<InterferenceType>();
+    List<InterferenceType> interferenceGeneratedTypes = new List<InterferenceType>();
+
 
     private int Answers
     {
@@ -175,60 +188,87 @@ public class IkoController : MonoBehaviour
             if (_currentAnswers >= _reqiredAnswers)
             {
                 // group-single
-                var cols_g = _buttonGroupTarget.colors;
-                var cols_s = _buttonSingleTarget.colors;
-                if (_isGroupAnswer.Value)
+                for (int i = 0; i < singleTargetButtons.Count; ++i)
                 {
-                    cols_g.disabledColor = _lastTarget.IsGroup ?
-                        _colorDisabledCheckedValid :
-                        _colorDisabledCheckedInvalid;
-                    cols_s.disabledColor = _colorDisabledUnchecked;
+                    var singleTargetButton = singleTargetButtons[i];
+                    var groupTargetButton = groupTargetButtons[i];
+                    var cols_s = singleTargetButton.colors;
+                    var cols_g = groupTargetButton.colors;
+                    bool? isGroupAnswer = isGroupAnswers[i];
+                    if (isGroupAnswer.Value)
+                    {
+                        cols_g.disabledColor = targets[i].IsGroup ?
+                            _colorDisabledCheckedValid :
+                            _colorDisabledCheckedInvalid;
+                        cols_s.disabledColor = _colorDisabledUnchecked;
+                    }
+                    else
+                    {
+                        cols_g.disabledColor = _colorDisabledUnchecked;
+                        cols_s.disabledColor = !targets[i].IsGroup ?
+                            _colorDisabledCheckedValid :
+                            _colorDisabledCheckedInvalid;
+                    }
+                    singleTargetButton.colors = cols_s;
+                    groupTargetButton.colors = cols_g;
                 }
-                else
-                {
-                    cols_g.disabledColor = _colorDisabledUnchecked;
-                    cols_s.disabledColor = !_lastTarget.IsGroup ?
-                        _colorDisabledCheckedValid :
-                        _colorDisabledCheckedInvalid;
-                }
-
-                _buttonGroupTarget.colors = cols_g;
-                _buttonSingleTarget.colors = cols_s;
 
                 // ours-others
-                var cols_o = _buttonOursTarget.colors;
-                var cols_t = _buttonOthersTarget.colors;
-                if (_isOursAnswer.Value)
+                for (int i = 0; i < oursTargetButtons.Count; ++i)
                 {
-                    cols_o.disabledColor = _lastTarget.IsOurs ?
-                        _colorDisabledCheckedValid :
-                        _colorDisabledCheckedInvalid;
-                    cols_t.disabledColor = _colorDisabledUnchecked;
-                }
-                else
-                {
-                    cols_o.disabledColor = _colorDisabledUnchecked;
-                    cols_t.disabledColor = !_lastTarget.IsOurs ?
-                        _colorDisabledCheckedValid :
-                        _colorDisabledCheckedInvalid;
+                    var oursTargetButton = oursTargetButtons[i];
+                    var othersTargetButton = othersTargetButtons[i];
+                    var cols_o = oursTargetButton.colors;
+                    var cols_t = othersTargetButton.colors;
+                    bool? isOursAnswer = isOursAnswers[i];
+                    if (isOursAnswer.Value)
+                    {
+                        cols_o.disabledColor = targets[i].IsOurs ?
+                            _colorDisabledCheckedValid :
+                            _colorDisabledCheckedInvalid;
+                        cols_t.disabledColor = _colorDisabledUnchecked;
+                    }
+                    else
+                    {
+                        cols_o.disabledColor = _colorDisabledUnchecked;
+                        cols_t.disabledColor = !targets[i].IsOurs ?
+                            _colorDisabledCheckedValid :
+                            _colorDisabledCheckedInvalid;
+                    }
+                    oursTargetButton.colors = cols_o;
+                    othersTargetButton.colors = cols_t;
                 }
 
                 // interference type
-                var index = (int)_interferenceAnswer - 1;
-                var selected = InterferenceButtons[index];
+                for (int i = 0; i < interferenceAnswers.Count; ++i)
+                {
+                    var interferenceTypeIndex = (int)interferenceAnswers[i] - 1;
+                    List<Button> interferenceButtons;
+                    if (i == 0)
+                    {
+                        interferenceButtons = InterferenceButtons1;
+                    }
+                    else if (i == 1)
+                    {
+                        interferenceButtons = InterferenceButtons2;
+                    }
+                    else if (i == 2)
+                    {
+                        interferenceButtons = InterferenceButtons3;
+                    }
+                    else
+                    {
+                        interferenceButtons = InterferenceButtons4;
+                    }
+                    var selected = interferenceButtons[interferenceTypeIndex];
+                    var col_sel = selected.colors;
+                    if (interferenceAnswers[i] == interferenceGeneratedTypes[i])
+                        col_sel.disabledColor = _colorDisabledCheckedValid;
+                    else
+                        col_sel.disabledColor = _colorDisabledCheckedInvalid;
 
-                var col_sel = selected.colors;
-
-                if (_interferenceAnswer == _interferenceGenerated)
-                    col_sel.disabledColor = _colorDisabledCheckedValid;
-                else
-                    col_sel.disabledColor = _colorDisabledCheckedInvalid;
-
-                selected.colors = col_sel;
-
-
-                _buttonOursTarget.colors = cols_o;
-                _buttonOthersTarget.colors = cols_t;
+                    selected.colors = col_sel;
+                }
 
                 if (Mistakes < _maxMistakes)
                     GameManager.Instance.AddToState(CheckPoint);
@@ -244,7 +284,7 @@ public class IkoController : MonoBehaviour
     [SerializeField]
     private Slider _strobSlider;
     [SerializeField]
-    [Range(0,1)]
+    [Range(0, 1)]
     private float _strobTolerance;
     [SerializeField]
     private float _interferenceFadeDist;
@@ -272,7 +312,7 @@ public class IkoController : MonoBehaviour
     void Start()
     {
         WorkMode = IkoWorkMode.Rpm6;
-        _ikoRadius = ((Vector2)LineObject.transform.position - 
+        _ikoRadius = ((Vector2)LineObject.transform.position -
             (Vector2)EdgeObject.transform.position)
             .magnitude;
 
@@ -321,10 +361,28 @@ public class IkoController : MonoBehaviour
 
     public void GenerateTargets()
     {
+        for (int i = 0; i < 4; ++i)
+        {
+            generateTarget(i);
+        }
+        Debug.Log(targets.Count);
+    }
+
+    private void generateTarget(int targetIdx)
+    {
         var dist = Random.Range(MinDistanceToTarget, MaxDistanceToTarget);
-        var angle = Random.Range(0, 360f);
-        var pos = Quaternion.Euler(0, 0, angle) * 
-            new Vector2(0, dist) + 
+        float angle;
+        if (targetIdx == 0) {
+            angle = Random.Range(30, 60);
+        } else if (targetIdx == 1) {
+            angle = Random.Range(120, 150);
+        } else if (targetIdx == 2) {
+            angle = Random.Range(210, 240);
+        } else {
+            angle = Random.Range(300, 330);
+        }
+        var pos = Quaternion.Euler(0, 0, angle) *
+            new Vector2(0, dist) +
             LineObject.transform.position;
 
         var velAmp = Random.Range(MinTargetVel, MaxTargetVel);
@@ -361,11 +419,12 @@ public class IkoController : MonoBehaviour
         instance.StartPos = pos;
         instance.MotionVel = vel;
 
-        instance.transform.SetParent(TargetsFolder, false);
+        Debug.Log("target with idx " + targetIdx + ": isOurs = " + isOur + " isGroup = " + isGroup);
 
+        instance.transform.SetParent(TargetsFolder, false);
         instance.transform.localScale = Vector3.one;
 
-        _lastTarget = instance;
+        targets.Add(instance);
     }
 
     public void StartTest()
@@ -375,15 +434,27 @@ public class IkoController : MonoBehaviour
         GenerateTargets();
         StartButton.interactable = false;
 
-        _buttonGroupTarget.interactable = true;
-        _buttonSingleTarget.interactable = true;
+        foreach (var button in singleTargetButtons)
+        {
+            button.interactable = true;
+        }
+        foreach (var button in groupTargetButtons)
+        {
+            button.interactable = true;
+        }
     }
 
     public void Restart()
     {
         _hasStarted = false;
-        if (_lastTarget != null) Destroy(_lastTarget);
-        _lastTarget = null;
+        foreach (var target in targets)
+        {
+            if (target != null)
+            {
+                Destroy(target);
+            }
+        }
+        targets = new List<IkoTarget>();
         LineObject.transform.localEulerAngles = new Vector3(0, 0, 90);
         StartButton.interactable = true;
         OnReset?.Invoke();
@@ -391,15 +462,7 @@ public class IkoController : MonoBehaviour
         WorkMode = IkoWorkMode.Rpm6;
 
         ResetButtonsColors();
-        _buttonGroupTarget.interactable = false;
-        _buttonSingleTarget.interactable = false;
-        _buttonOthersTarget.interactable = false;
-        _buttonOursTarget.interactable = false;
-
-        foreach (var b in InterferenceButtons)
-        {
-            b.interactable = false;
-        }
+        SetInteractableFalseForButtons();
 
         foreach (Transform obj in InterferenceFolder)
         {
@@ -426,27 +489,58 @@ public class IkoController : MonoBehaviour
         PassiveInterferenceLevel = 1f;
         _strobContainer.SetActive(false);
         _interferenceDistToCenter = 0;
-        
-        _isGroupAnswer = null;
-        _isOursAnswer = null;
-        _interferenceAnswer = InterferenceType.None;
-        _interferenceGenerated = InterferenceType.None;
+        for (int i = 0; i < 4; ++i)
+        {
+            interferencesDistToCenter[i] = 0;
+        }
+        isGroupAnswers = new List<bool?>();
+        for (int i = 0; i < singleTargetButtons.Count; ++i)
+        {
+            isGroupAnswers.Add(null);
+        }
+        isOursAnswers = new List<bool?>();
+        for (int i = 0; i < singleTargetButtons.Count; ++i)
+        {
+            isOursAnswers.Add(null);
+        }
+        interferenceAnswers = new List<InterferenceType>();
+        for (int i = 0; i < singleTargetButtons.Count; ++i)
+        {
+            interferenceAnswers.Add(InterferenceType.None);
+        }
+        interferenceGeneratedTypes = new List<InterferenceType>();
+        for (int i = 0; i < singleTargetButtons.Count; ++i)
+        {
+            interferenceGeneratedTypes.Add(InterferenceType.None);
+        }
     }
 
     public void OnRound(int round)
     {
-        switch(round) {
+        switch (round)
+        {
             case 3:
-                _buttonOthersTarget.interactable = true;
-                _buttonOursTarget.interactable = true;
+                foreach (var button in oursTargetButtons)
+                {
+                    button.interactable = true;
+                }
+                foreach (var button in othersTargetButtons)
+                {
+                    button.interactable = true;
+                }
                 break;
             case 4:
-                GenerateInterference();
+                GenerateInterferences();
                 break;
             case 5:
-                foreach (var b in InterferenceButtons)
+                List<List<Button>> allInterferenceButtons = new List<List<Button>>{
+                    InterferenceButtons1, InterferenceButtons2, InterferenceButtons3, InterferenceButtons4};
+                foreach (var buttons in allInterferenceButtons)
                 {
-                    b.interactable = true;
+                    foreach (var b in buttons)
+                    {
+                        b.interactable = true;
+                    }
                 }
                 break;
             default:
@@ -456,99 +550,218 @@ public class IkoController : MonoBehaviour
 
     #region Buttons
 
-    public void Test_GroupSingle(bool isGroup)
+    public void Test_GroupSingle1(bool isGroup)
     {
-        _buttonSingleTarget.interactable = false;
-        _buttonGroupTarget.interactable = false;
+        testGroupSingleTarget(isGroup, 0);
+    }
 
-        var cols_g = _buttonGroupTarget.colors;
-        var cols_s = _buttonSingleTarget.colors;
+    public void Test_GroupSingle2(bool isGroup)
+    {
+        testGroupSingleTarget(isGroup, 1);
+    }
+
+    public void Test_GroupSingle3(bool isGroup)
+    {
+        testGroupSingleTarget(isGroup, 2);
+    }
+
+    public void Test_GroupSingle4(bool isGroup)
+    {
+        testGroupSingleTarget(isGroup, 3);
+    }
+
+    private void testGroupSingleTarget(bool isGroup, int targetIdx)
+    {
+        Debug.Log("checking target number " + targetIdx + ". isGroup=" + isGroup);
+        Button singleTargetButton = singleTargetButtons[targetIdx];
+        Button groupTargetButton = groupTargetButtons[targetIdx];
+        singleTargetButton.interactable = false;
+        groupTargetButton.interactable = false;
+        var cols_s = singleTargetButton.colors;
+        var cols_g = groupTargetButton.colors;
         if (isGroup)
         {
-            cols_g.disabledColor = _colorDisabled—hecked;
+            cols_g.disabledColor = _colorDisabledChecked;
             cols_s.disabledColor = _colorDisabledUnchecked;
         }
         else
         {
             cols_g.disabledColor = _colorDisabledUnchecked;
-            cols_s.disabledColor = _colorDisabled—hecked;
+            cols_s.disabledColor = _colorDisabledChecked;
         }
 
-        if (isGroup != _lastTarget.IsGroup) Mistakes++;
+        if (isGroup != targets[targetIdx].IsGroup) Mistakes++;
 
-        _buttonGroupTarget.colors = cols_g;
-        _buttonSingleTarget.colors = cols_s;
+        groupTargetButton.colors = cols_g;
+        singleTargetButton.colors = cols_s;
 
-        _isGroupAnswer = isGroup;
+        isGroupAnswers[targetIdx] = isGroup;
         Answers++;
     }
 
-    public void Test_TheirOurs(bool isOurs)
+    public void Test_TheirOurs1(bool isOurs)
     {
-        //Debug.Log($"is correct answer: {_lastTarget.IsOurs == isOurs}");
-        _buttonOthersTarget.interactable = false;
-        _buttonOursTarget.interactable = false;
+        TestTheirOursTarget(isOurs, 0);
+    }
 
-        var cols_o = _buttonOursTarget.colors;
-        var cols_t = _buttonOthersTarget.colors;
+    public void Test_TheirOurs2(bool isOurs)
+    {
+        TestTheirOursTarget(isOurs, 1);
+    }
+
+    public void Test_TheirOurs3(bool isOurs)
+    {
+        TestTheirOursTarget(isOurs, 2);
+    }
+
+    public void Test_TheirOurs4(bool isOurs)
+    {
+        TestTheirOursTarget(isOurs, 3);
+    }
+
+    public void TestTheirOursTarget(bool isOurs, int targetIdx)
+    {
+        Debug.Log("checking target number " + targetIdx + ". isOurs=" + isOurs);
+        Button oursTargetButton = oursTargetButtons[targetIdx];
+        Button othersTargetButton = othersTargetButtons[targetIdx];
+        oursTargetButton.interactable = false;
+        othersTargetButton.interactable = false;
+
+        var cols_o = oursTargetButton.colors;
+        var cols_t = othersTargetButton.colors;
         if (isOurs)
         {
-            cols_o.disabledColor = _colorDisabled—hecked;
+            cols_o.disabledColor = _colorDisabledChecked;
             cols_t.disabledColor = _colorDisabledUnchecked;
         }
         else
         {
             cols_o.disabledColor = _colorDisabledUnchecked;
-            cols_t.disabledColor = _colorDisabled—hecked;
+            cols_t.disabledColor = _colorDisabledChecked;
         }
 
-        if (isOurs != _lastTarget.IsOurs) Mistakes++;
+        if (isOurs != targets[targetIdx].IsOurs) Mistakes++;
 
-        _buttonOursTarget.colors = cols_o;
-        _buttonOthersTarget.colors = cols_t;
+        oursTargetButton.colors = cols_o;
+        othersTargetButton.colors = cols_t;
 
-        _isOursAnswer = isOurs;
+        isOursAnswers[targetIdx] = isOurs;
         Answers++;
     }
 
-
-    public void Test_Interference(int interferenceType)
+    public void Test_Interference1(int interferenceType)
     {
-        var index = interferenceType - 1;
-        var selected = InterferenceButtons[index];
+        Test_Interference(interferenceType, 1);
+    }
+
+    public void Test_Interference2(int interferenceType)
+    {
+        Test_Interference(interferenceType, 2);
+    }
+
+    public void Test_Interference3(int interferenceType)
+    {
+        Test_Interference(interferenceType, 3);
+    }
+
+    public void Test_Interference4(int interferenceType)
+    {
+        Test_Interference(interferenceType, 4);
+    }
+
+    public void Test_Interference(int interferenceType, int targetNumber)
+    {
+        Debug.Log("testing interference. targetNumber = " + targetNumber + " type = " + interferenceType);
+        var interferenceButtonIdx = interferenceType - 1;
+        List<Button> buttons;
+        if (targetNumber == 1)
+        {
+            buttons = InterferenceButtons1;
+        }
+        else if (targetNumber == 2)
+        {
+            buttons = InterferenceButtons2;
+        }
+        else if (targetNumber == 3)
+        {
+            buttons = InterferenceButtons3;
+        }
+        else
+        {
+            buttons = InterferenceButtons4;
+        }
+        var selected = buttons[interferenceButtonIdx];
 
         var col_sel = selected.colors;
         var col_notSel = selected.colors;
 
-        col_sel.disabledColor = _colorDisabled—hecked;
+        col_sel.disabledColor = _colorDisabledChecked;
         col_notSel.disabledColor = _colorDisabledUnchecked;
 
-        foreach (var b in InterferenceButtons)
+        foreach (var b in buttons)
         {
             b.interactable = false;
             b.colors = col_notSel;
         }
         selected.colors = col_sel;
+        var interferenceAnswer = (InterferenceType)interferenceType;
+        interferenceAnswers[targetNumber - 1] = interferenceAnswer;
 
-        _interferenceAnswer = (InterferenceType)interferenceType;
-        if (_interferenceAnswer != _interferenceGenerated)
+        if (interferenceAnswer != interferenceGeneratedTypes[targetNumber - 1]) {
             Mistakes++;
+            Debug.Log("wrong interference type, right = " + interferenceGeneratedTypes[targetNumber - 1]);
+        }
         Answers++;
     }
 
     private void ResetButtonsColors()
     {
-        var cols = _buttonOursTarget.colors;
+        var cols = oursTargetButtons[0].colors;
         cols.disabledColor = _colorDisabledUnchecked;
 
-        _buttonGroupTarget.colors = cols;
-        _buttonOthersTarget.colors = cols;
-        _buttonOursTarget.colors = cols;
-        _buttonSingleTarget.colors = cols;
+        List<List<Button>> allTargetButtons = new List<List<Button>>{
+                    singleTargetButtons, groupTargetButtons, oursTargetButtons, othersTargetButtons};
 
-        foreach (var b in InterferenceButtons)
+        foreach (var buttons in allTargetButtons)
         {
-            b.colors = cols;
+            foreach (var b in buttons)
+            {
+                b.colors = cols;
+            }
+        }
+
+        List<List<Button>> allInterferenceButtons = new List<List<Button>>{
+                    InterferenceButtons1, InterferenceButtons2, InterferenceButtons3, InterferenceButtons4};
+        foreach (var buttons in allInterferenceButtons)
+        {
+            foreach (var b in buttons)
+            {
+                b.colors = cols;
+            }
+        }
+
+    }
+
+    private void SetInteractableFalseForButtons()
+    {
+        List<List<Button>> allTargetButtons = new List<List<Button>>{
+                    singleTargetButtons, groupTargetButtons, oursTargetButtons, othersTargetButtons};
+        foreach (var buttons in allTargetButtons)
+        {
+            foreach (var b in buttons)
+            {
+                b.interactable = false;
+            }
+        }
+
+        List<List<Button>> allInterferenceButtons = new List<List<Button>>{
+                    InterferenceButtons1, InterferenceButtons2, InterferenceButtons3, InterferenceButtons4};
+        foreach (var buttons in allInterferenceButtons)
+        {
+            foreach (var b in buttons)
+            {
+                b.interactable = false;
+            }
         }
     }
 
@@ -569,17 +782,25 @@ public class IkoController : MonoBehaviour
         }
     }
 
-    public void GenerateInterference()
+    public void GenerateInterferences()
     {
-        // todo: add different types
-        _interferenceGenerated = InterferenceType.Passive;
-        var offset = _lastTarget.MotionVel;
+        for (int i = 0; i < 4; ++i)
+        {
+            GenerateInterference(i);
+        }
+        Debug.Log("Interferences count = " + interferenceGeneratedTypes.Count);
+    }
+
+    public void GenerateInterference(int targetIdx)
+    {
+        var target = targets[targetIdx];
+        var offset = target.MotionVel;
         offset.Normalize();
         offset *= _passiveIntRadius;
-        var instance = Instantiate(PassiveInterferencePrefab);
-        instance.transform.position = _lastTarget.CurrentPos +
+        var instance = Instantiate(getRandomInterferencePrefab(targetIdx));
+        instance.transform.position = target.CurrentPos +
             offset +
-            InterferenceTimeOffset * _lastTarget.MotionVel;
+            InterferenceTimeOffset * target.MotionVel;
         instance.transform.SetParent(InterferenceFolder, true);
         instance.transform.localScale = Vector3.one;
 
@@ -589,6 +810,22 @@ public class IkoController : MonoBehaviour
         _interferenceDistToCenter = ((Vector2)instance.transform.position -
             (Vector2)LineObject.transform.position)
             .magnitude;
+        interferencesDistToCenter[targetIdx] = _interferenceDistToCenter;
+    }
+
+    private GameObject getRandomInterferencePrefab(int targetIdx) {
+        List<InterferenceType> enabledTypes = new List<InterferenceType>{
+            InterferenceType.Passive, InterferenceType.NonlinearImpulse};
+        var randomIdx = (int) Random.Range(0, enabledTypes.Count);
+        var randomInterferenceType = enabledTypes[randomIdx];
+        interferenceGeneratedTypes[targetIdx] = randomInterferenceType;
+
+        if (randomInterferenceType == InterferenceType.Passive) {
+            Debug.Log("Generating passive interference for target with idx " + targetIdx);
+            return PassiveInterferencePrefab;
+        }
+        Debug.Log("Generating NIP interference for target with idx " + targetIdx);
+        return NipInterferencePrefab;
     }
 
     #endregion
@@ -608,7 +845,6 @@ public class IkoController : MonoBehaviour
     private void OnStrobStartValueChange(float value)
     {
         var pos = Mathf.Lerp(0, _ikoRadius, value);
-
         var dist = Mathf.Abs(_interferenceDistToCenter - pos);
         var lerpVal = Mathf.Clamp01(
             Mathf.InverseLerp(_interferenceFadeDist * _ikoRadius, 0, dist)

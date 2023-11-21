@@ -136,6 +136,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _canvas: {fileID: 4897443933279652842}
   _minAlpha: 0.15
+  _isTarget: 1
 --- !u!225 &4897443933279652842
 CanvasGroup:
   m_ObjectHideFlags: 0
